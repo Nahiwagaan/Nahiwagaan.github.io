@@ -15,23 +15,25 @@ header {
 
 footer {
     justify-content: center;
-    margin-top: 100px;
+    margin-top: 50px;
     height: 200px;
     display: flex;
     background-color: #A6BED1;
 }
 
-footer h1 {
+#connect {
+    position: relative;
+    top: 110px;
+    font-size: 50px;
+    text-align: center;
+    padding-right: 850px;
     font-size: 50px;
     color: #386270;
-    position: relative;
-    right: 365px;
-    bottom: 30px;
 }
 
 #linkedin {
     position: relative;
-    right: 525px;
+    right: 410px;
     top: 70px;
     height: 120px;
     width: 120px;
@@ -187,7 +189,7 @@ footer h1 {
     .text-content #about {
         position: absolute;
         font-size: 15px;
-        top: 20px;
+        top: 30px;
     }
     
     #visit {
@@ -226,14 +228,16 @@ footer h1 {
         padding: 0;
     }
 
-    footer h1{
+    #connect {
         position: relative;
-        left: -30px;
+        padding: 0;
+        left: 20px;
+        width: 10px;
     }
 
     #linkedin {
         position: relative;
-        right: 210px;
+        right: 100px;
     }
 }
 
@@ -324,7 +328,8 @@ footer h1 {
 
     #linkedin {
         position: absolute;
+        width: 100px;
         left: 10px;
-        top: 1425px;
+        top: 1475px;
     }
 }
