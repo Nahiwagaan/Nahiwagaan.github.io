@@ -179,15 +179,27 @@ footer h1 {
     }
     
     .text-content h1 {
+        position: absolute;
+        top: -60px;
         font-size: 50px;
     }
     
     .text-content #about {
+        position: absolute;
         font-size: 15px;
+        top: 20px;
     }
     
     #visit {
+        top: 200px;
+        position: relative;
         font-size: 15px;
+    }
+
+    #github {
+        position: relative;
+        top: 205px;
+        width: 15px;
     }
     
     .text-content a {
@@ -195,9 +207,10 @@ footer h1 {
     }
     
     #letsconnect {
+        display: flex;
         position: relative;
-        bottom: 30px;
         left: 20px;
+        top: 220px;
     }
     
     .projects-container {
@@ -250,7 +263,7 @@ footer h1 {
 
     #github {
         position: relative;
-        top: 200px;
+        top: 225px;
     }
     
     .text-content h1 {
@@ -268,7 +281,7 @@ footer h1 {
     #visit {
         position: relative;
         font-size: 12px;
-        top: 200px;
+        top: 220px;
     }
     
     .text-content a {
@@ -289,18 +302,29 @@ footer h1 {
     
     #project {
         position: relative;
-        left: 20px;
+        font-size: 35px;
+        left: 10px;
         width: 50px;
         padding: 0;
     }
 
+    .project {
+        width: 250px;
+    }
+
+    footer {
+        height: 160px;
+    }
+
     footer h1{
+        font-size: 35px;
         position: relative;
-        left: -30px;
+        left: -80px;
     }
 
     #linkedin {
-        position: relative;
-        right: 210px;
+        position: absolute;
+        left: 10px;
+        top: 1425px;
     }
 }
