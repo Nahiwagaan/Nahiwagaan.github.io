@@ -3,6 +3,7 @@ body {
     font-family: 'Judson', serif;
     background-color: #181E2E;
     color: #C7D4DE;
+    overflow-x: hidden;
 }
 
 header {
@@ -207,7 +208,8 @@ footer h1 {
     
     #project {
         position: relative;
-        left: 20px;
+        width: 50px;
+        padding: 0;
     }
 
     footer h1{
