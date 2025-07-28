@@ -112,7 +112,12 @@ footer {
 
 .projects-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 #project {
@@ -125,7 +130,7 @@ footer {
     background-color: #A7BDD2;
     margin: 5px;
     width: 300px;
-    height: 150px;
+    height: 180px;
     border: solid #3E6985;
     border-width: 5px 15px 15px;
     border-right-color: #8AA7BC;
