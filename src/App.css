@@ -11,6 +11,9 @@
   --bg-2: #252837;
   --bg-card: #2a2d3e;
   --bg-card-alt: #21243a;
+  --header-bg: rgba(30, 33, 48, 0.55);
+  --header-scrolled: rgba(30, 33, 48, 0.97);
+  --mobile-nav-bg: rgba(30, 33, 48, 0.98);
   --accent: #f5c842;
   --accent-hover: #e0b430;
   --text-primary: #ffffff;
@@ -29,6 +32,9 @@
   --bg-2: #ffffff;
   --bg-card: #ffffff;
   --bg-card-alt: #f9fafb;
+  --header-bg: rgba(243, 244, 246, 0.55);
+  --header-scrolled: rgba(243, 244, 246, 0.97);
+  --mobile-nav-bg: rgba(243, 244, 246, 0.98);
   --accent: #4a6cf7;
   /* Adjust accent for better light contrast */
   --accent-hover: #3b5bdb;
@@ -58,7 +64,7 @@ header {
   right: 0;
   z-index: 1000;
   padding: 18px 0;
-  background: rgba(30, 33, 48, 0.55);
+  background: var(--header-bg);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--border);
@@ -66,8 +72,8 @@ header {
 }
 
 header.scrolled {
-  background: rgba(30, 33, 48, 0.97);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  background: var(--header-scrolled);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   padding: 14px 0;
 }
 
@@ -204,7 +210,7 @@ header.scrolled {
   max-height: 0;
   overflow: hidden;
   flex-direction: column;
-  background: rgba(30, 33, 48, 0.98);
+  background: var(--mobile-nav-bg);
   backdrop-filter: blur(20px);
   transition: max-height 0.4s ease, padding 0.3s ease;
 }
@@ -336,6 +342,51 @@ header.scrolled {
 .btn-ghost:hover {
   border-color: var(--accent);
   color: var(--accent);
+.contact-form-main {
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group-inline {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .form-group-inline { grid-template-columns: 1fr; }
+}
+
+.contact-form-main input,
+.contact-form-main textarea {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  color: white;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.contact-form-main input:focus,
+.contact-form-main textarea:focus {
+  outline: none;
+  border-color: #646cff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.contact-form-main .btn-primary {
+  width: 100%;
+  padding: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
   transform: translateY(-2px);
 }
 
@@ -528,7 +579,7 @@ header.scrolled {
   padding: 0 40px;
   display: flex;
   flex-direction: column;
-  gap: 80px;
+  gap: 20px;
 }
 
 .services-top-row {
@@ -698,17 +749,56 @@ header.scrolled {
   height: 100%;
   border: none;
   pointer-events: none;
-  transition: opacity 0.4s ease-in-out, transform 0.4s ease-out;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-out;
+  z-index: 10;
 }
 
 .cert-pdf-iframe.fading-out {
   opacity: 0;
   transform: scale(0.98);
+  z-index: -1;
+  /* Hides iframe behind the white container background to mask native scrollbars */
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-out, z-index 0s linear 0.3s;
 }
 
 .cert-pdf-iframe.fading-in {
   opacity: 1;
   transform: scale(1);
+  z-index: 10;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-out, z-index 0s;
+}
+
+/* Pagination Dots */
+.carousel-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.pagination-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  opacity: 0.3;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+  padding: 0;
+}
+
+.pagination-dot:hover {
+  opacity: 0.8;
+  transform: scale(1.2);
+}
+
+.pagination-dot.active {
+  background: var(--accent);
+  opacity: 1;
+  width: 28px;
+  border-radius: 8px;
 }
 
 @media (max-width: 1024px) {
@@ -918,6 +1008,13 @@ header.scrolled {
   justify-content: center;
   margin: 0 auto 18px;
   font-size: 1.6rem;
+  overflow: hidden;
+}
+
+.workflow-icon-img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
 }
 
 .workflow-step h3 {
