@@ -5,9 +5,9 @@ import type { Project as ProjectType, Certificate as CertType, Skill as SkillTyp
 import {
   Plus, Trash2, Edit, X, LogOut,
   FolderKanban, Award, Code2, MessageSquare,
-  Menu, Monitor, Upload
+  Menu, Monitor, Upload, Pin, GripVertical
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import { uploadToCloudinary } from '../../data/cloudinary';
 
 const AdminPanel = () => {
@@ -26,6 +26,24 @@ const AdminPanel = () => {
   // Editing States
   const [editingItem, setEditingItem] = useState<any>(null);
   const [showForm, setShowForm] = useState(false);
+  const [filePreview, setFilePreview] = useState<string | null>(null);
+
+  const resetForm = () => {
+    setShowForm(false);
+    setEditingItem(null);
+    setFilePreview(null);
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.type.startsWith('image/')) {
+        setFilePreview(URL.createObjectURL(file));
+      } else {
+        setFilePreview(file.name); // Just show the name for PDFs
+      }
+    }
+  };
 
   useEffect(() => {
     if (localStorage.getItem('admin_auth') === 'true') {
@@ -40,6 +58,12 @@ const AdminPanel = () => {
     setSkills(await db.getSkills());
     setMessages(await db.getMessages());
   };
+
+  const handleProjectReorder = async (newOrder: ProjectType[]) => {
+    setProjects(newOrder); // Optimistic UI
+    await db.updateProjectPositions(newOrder);
+  };
+
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,6 +106,7 @@ const AdminPanel = () => {
       let uploadedUrl = '';
 
       if (file && file.size > 0) {
+        console.log('Attempting Cloudinary upload:', file.name, file.size, 'bytes');
         uploadedUrl = await uploadToCloudinary(file) || '';
       }
 
@@ -89,17 +114,27 @@ const AdminPanel = () => {
       delete finalData.file_upload;
 
       if (activeTab === 'projects') {
+        finalData.pinned = formData.get('pinned') === 'true';
+        finalData.tech_stack = formData.getAll('tech_stack');
         if (uploadedUrl) finalData.image_url = uploadedUrl;
         await db.saveProject(finalData);
       } else if (activeTab === 'certs') {
+        if (!uploadedUrl && !editingItem?.file_url) {
+          alert('Please select a PDF file to upload.');
+          return;
+        }
         if (uploadedUrl) finalData.file_url = uploadedUrl;
+        // Auto-generate title from filename
+        const urlForTitle = uploadedUrl || editingItem?.file_url || '';
+        finalData.title = decodeURIComponent(urlForTitle.split('/').pop()?.replace(/\.[^.]+$/, '') || 'Certificate');
+        finalData.issuer = 'Uploaded';
         await db.saveCert(finalData);
       } else if (activeTab === 'skills') {
+        if (uploadedUrl) finalData.icon = uploadedUrl;
         await db.saveSkill(finalData);
       }
 
-      setShowForm(false);
-      setEditingItem(null);
+      resetForm();
       loadData();
     } catch (error) {
       alert('Error saving item');
@@ -164,31 +199,41 @@ const AdminPanel = () => {
               <div className="admin-table-container">
                 {activeTab === 'projects' && (
                   <table className="admin-table">
-                    <thead><tr><th>Project Name</th><th>Year</th><th>Status</th><th>Description</th><th>Actions</th></tr></thead>
-                    <tbody>
+                    <thead><tr><th></th><th>Project Name</th><th>Year</th><th>Status</th><th>Pinned</th><th>Description</th><th>Actions</th></tr></thead>
+                    <Reorder.Group as="tbody" axis="y" values={projects} onReorder={handleProjectReorder}>
                       {projects.map(p => (
-                        <tr key={p.id}>
+                        <Reorder.Item as="tr" key={p.id} value={p} style={{ cursor: 'grab' }}>
+                          <td style={{ color: 'var(--admin-text-muted)', cursor: 'grab', width: '40px' }}><GripVertical size={18} /></td>
                           <td><strong>{p.title}</strong></td><td>{p.year}</td>
                           <td><span className={`status-pill ${p.status}`}>{p.status}</span></td>
+                          <td>
+                            <button 
+                              className={`action-btn ${p.pinned ? 'pinned' : ''}`}
+                              onClick={async () => { await db.togglePin(p.id, !p.pinned); loadData(); }}
+                              title={p.pinned ? 'Unpin from homepage' : 'Pin to homepage'}
+                            >
+                              <Pin size={16} />
+                            </button>
+                          </td>
                           <td><div className="truncate-text">{p.desc_text}</div></td>
                           <td className="actions-cell">
                             <button className="action-btn edit" onClick={() => { setEditingItem(p); setShowForm(true); }}><Edit size={16} /></button>
                             <button className="action-btn delete" onClick={() => deleteItem('projects', p.id)}><Trash2 size={16} /></button>
                           </td>
-                        </tr>
+                        </Reorder.Item>
                       ))}
-                    </tbody>
+                    </Reorder.Group>
                   </table>
                 )}
                 {activeTab === 'certs' && (
                   <table className="admin-table">
-                    <thead><tr><th>Title</th><th>Issuer</th><th>File URL</th><th>Actions</th></tr></thead>
+                    <thead><tr><th>#</th><th>Certificate File</th><th>Actions</th></tr></thead>
                     <tbody>
-                      {certs.map(c => (
+                      {certs.map((c, idx) => (
                         <tr key={c.id}>
-                          <td>{c.title}</td><td>{c.issuer}</td><td><div className="truncate-text">{c.file_url}</div></td>
+                          <td>{idx + 1}</td>
+                          <td><div className="truncate-text"><a href={c.file_url} target="_blank" rel="noreferrer">{c.file_url?.split('/').pop() || 'View File'}</a></div></td>
                           <td className="actions-cell">
-                            <button className="action-btn edit" onClick={() => { setEditingItem(c); setShowForm(true); }}><Edit size={16} /></button>
                             <button className="action-btn delete" onClick={() => deleteItem('certs', c.id)}><Trash2 size={16} /></button>
                           </td>
                         </tr>
@@ -198,11 +243,12 @@ const AdminPanel = () => {
                 )}
                 {activeTab === 'skills' && (
                   <table className="admin-table">
-                    <thead><tr><th>Skill Name</th><th>Icon/Key</th><th>Category</th><th>Actions</th></tr></thead>
+                    <thead><tr><th>Skill Name</th><th>Icon</th><th>Actions</th></tr></thead>
                     <tbody>
                       {skills.map(s => (
                         <tr key={s.id}>
-                          <td>{s.name}</td><td>{s.icon}</td><td>{s.category}</td>
+                          <td>{s.name}</td>
+                          <td>{s.icon ? <img src={s.icon} alt={s.name} style={{height:'30px',width:'30px',objectFit:'contain'}} /> : 'No Icon'}</td>
                           <td className="actions-cell">
                             <button className="action-btn edit" onClick={() => { setEditingItem(s); setShowForm(true); }}><Edit size={16} /></button>
                             <button className="action-btn delete" onClick={() => deleteItem('skills', s.id)}><Trash2 size={16} /></button>
@@ -234,7 +280,7 @@ const AdminPanel = () => {
           <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="admin-modal">
             <div className="modal-header">
               <h3>{editingItem ? 'Edit' : 'Add New'} {activeTab.slice(0, -1)}</h3>
-              <button className="close-btn" onClick={() => setShowForm(false)}><X size={20} /></button>
+              <button className="close-btn" onClick={resetForm}><X size={20} /></button>
             </div>
             <form onSubmit={saveItem} className="admin-form">
               {activeTab === 'projects' && (
@@ -247,43 +293,83 @@ const AdminPanel = () => {
                     </div>
                   </div>
                   <div className="form-group"><label>Description (desc_text)</label><textarea name="desc_text" defaultValue={editingItem?.desc_text} rows={4} required /></div>
+                  <div className="form-group"><label>Project Link (URL)</label><input name="link_url" defaultValue={editingItem?.link_url} placeholder="https://your-project.com" /></div>
+                  <div className="form-group">
+                    <label>Tech Stack</label>
+                    <div className="tech-stack-select">
+                      {skills.map((s) => (
+                        <label key={s.id} className="tech-checkbox-label" title={s.name}>
+                          <input type="checkbox" name="tech_stack" value={s.icon} defaultChecked={editingItem?.tech_stack?.includes(s.icon) || false} />
+                          <img src={s.icon || `/images/icons/${s.name.toLowerCase()}.svg`} alt={s.name} />
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="form-group form-checkbox">
+                    <label>
+                      <input type="checkbox" name="pinned" value="true" defaultChecked={editingItem?.pinned || false} />
+                      <span>Pin to Homepage (max 9)</span>
+                    </label>
+                  </div>
                   <div className="form-group">
                     <label>Project Image</label>
                     <div className="upload-container">
-                      <input type="file" name="file_upload" accept="image/*" className="file-input-real" id="file_upload" />
+                      <input type="file" name="file_upload" accept="image/*" className="file-input-real" id="file_upload" onChange={handleFileSelect} />
                       <label htmlFor="file_upload" className="file-input-label">
-                        <Upload size={18} /> {editingItem?.image_url ? 'Change Image' : 'Select Image'}
+                        <Upload size={18} /> {editingItem?.image_url || filePreview ? 'Change Image' : 'Select Image'}
                       </label>
                       <input name="image_url" defaultValue={editingItem?.image_url} placeholder="Or enter URL manually" />
                     </div>
+                    {(filePreview || editingItem?.image_url) && filePreview?.startsWith('blob') && (
+                      <div className="file-preview-area">
+                        <p>Preview:</p>
+                        <img src={filePreview} alt="Preview" className="img-preview-small" />
+                      </div>
+                    )}
                   </div>
                 </>
               )}
               {activeTab === 'certs' && (
                 <>
-                  <div className="form-group"><label>Title</label><input name="title" defaultValue={editingItem?.title} required /></div>
-                  <div className="form-group"><label>Issuer</label><input name="issuer" defaultValue={editingItem?.issuer} required /></div>
                   <div className="form-group">
-                    <label>Certificate File (PDF or Image)</label>
+                    <label>Upload Certificate (PDF)</label>
                     <div className="upload-container">
-                      <input type="file" name="file_upload" accept="application/pdf,image/*" className="file-input-real" id="file_upload" />
-                      <label htmlFor="file_upload" className="file-input-label">
-                        <Upload size={18} /> {editingItem?.file_url ? 'Change File' : 'Select File'}
+                      <input type="file" name="file_upload" accept="application/pdf,image/*" className="file-input-real" id="file_upload_cert" onChange={handleFileSelect} />
+                      <label htmlFor="file_upload_cert" className="file-input-label">
+                        <Upload size={18} /> {editingItem?.file_url || filePreview ? 'Change File' : 'Select PDF File'}
                       </label>
-                      <input name="file_url" defaultValue={editingItem?.file_url} placeholder="Or enter URL manually" required />
                     </div>
+                    {filePreview && !filePreview.startsWith('blob') && (
+                      <p className="preview-text">Selected: {filePreview}</p>
+                    )}
+                    {editingItem?.file_url && !filePreview && (
+                      <p className="preview-text">Current: {editingItem.file_url.split('/').pop()}</p>
+                    )}
                   </div>
                 </>
               )}
               {activeTab === 'skills' && (
                 <>
                   <div className="form-group"><label>Skill Name</label><input name="name" defaultValue={editingItem?.name} required /></div>
-                  <div className="form-group"><label>Icon Key</label><input name="icon" defaultValue={editingItem?.icon} required placeholder="react, python, etc." /></div>
-                  <div className="form-group"><label>Category</label><input name="category" defaultValue={editingItem?.category} required placeholder="Frontend, Backend, etc." /></div>
+                  <div className="form-group">
+                    <label>Skill Icon</label>
+                    <div className="upload-container">
+                      <input type="file" name="file_upload" accept="image/*" className="file-input-real" id="file_upload_skill" onChange={handleFileSelect} />
+                      <label htmlFor="file_upload_skill" className="file-input-label">
+                        <Upload size={18} /> {editingItem?.icon || filePreview ? 'Change Icon' : 'Select Icon'}
+                      </label>
+                      <input name="icon" defaultValue={editingItem?.icon} placeholder="Or enter icon URL manually" />
+                    </div>
+                    {(filePreview || editingItem?.icon) && filePreview?.startsWith('blob') && (
+                      <div className="file-preview-area">
+                        <img src={filePreview} alt="Preview" className="img-preview-skill" />
+                      </div>
+                    )}
+                  </div>
                 </>
               )}
               <div className="form-actions">
-                <button type="button" className="btn-cancel" onClick={() => setShowForm(false)}>Cancel</button>
+                <button type="button" className="btn-cancel" onClick={resetForm}>Cancel</button>
                 <button type="submit" className="btn-save" disabled={isUploading}>
                   {isUploading ? 'Uploading...' : 'Save Changes'}
                 </button>

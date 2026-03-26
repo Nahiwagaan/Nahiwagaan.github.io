@@ -342,52 +342,96 @@ header.scrolled {
 .btn-ghost:hover {
   border-color: var(--accent);
   color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   CONTACT SECTION
+   ============================================================ */
+.contact-form-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  max-width: 700px;
+  margin: 3rem auto;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
 .contact-form-main {
-  width: 100%;
-  max-width: 600px;
-  margin: 2rem auto;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 24px;
 }
 
 .form-group-inline {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 24px;
 }
 
 @media (max-width: 600px) {
-  .form-group-inline { grid-template-columns: 1fr; }
+  .form-group-inline {
+    grid-template-columns: 1fr;
+  }
 }
 
-.contact-form-main input,
-.contact-form-main textarea {
+.input-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.input-wrap label {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: #f5c842;
+  text-transform: uppercase;
+}
+
+.input-wrap input,
+.input-wrap textarea {
   width: 100%;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.75rem;
-  color: white;
+  resize: none;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: var(--text-primary);
   font-family: inherit;
   font-size: 1rem;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
 }
 
-.contact-form-main input:focus,
-.contact-form-main textarea:focus {
+.input-wrap input:focus,
+.input-wrap textarea:focus {
   outline: none;
-  border-color: #646cff;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.4);
+  border-bottom-color: #b59b74;
 }
 
-.contact-form-main .btn-primary {
+.btn-transmission {
+  margin-top: 10px;
   width: 100%;
-  padding: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  padding: 18px;
+  background: #f5c842;
+  color: #111;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(168, 131, 84, 0.2);
 }
+
+.btn-transmission:hover {
   transform: translateY(-2px);
+  box-shadow: 0 15px 25px rgba(168, 131, 84, 0.4);
+  background: linear-gradient(135deg, #d4b28a 0%, #b89263 100%);
 }
 
 /* ── Center photo ── */
@@ -481,6 +525,11 @@ header.scrolled {
   background: var(--accent);
   color: #111;
   border-color: var(--accent);
+}
+
+.social-icon svg {
+  width: 14px;
+  height: 14px;
 }
 
 /* ── Hero Skills Inline ── */
@@ -851,6 +900,12 @@ header.scrolled {
   box-sizing: border-box;
 }
 
+.project-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .project-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -858,7 +913,6 @@ header.scrolled {
   overflow: hidden;
   position: relative;
   transition: transform var(--transition), box-shadow var(--transition);
-  height: 340px;
   display: flex;
   flex-direction: column;
 }
@@ -904,10 +958,29 @@ header.scrolled {
   font-weight: 500;
 }
 
+.project-tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tech-icon-small {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
 .project-description {
   color: var(--text-muted);
   font-size: 0.86rem;
   line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .status-badge {
@@ -923,12 +996,12 @@ header.scrolled {
 }
 
 .status-active {
-  background: rgba(76, 175, 80, 0.85);
+  background: #4caf50;
   color: white;
 }
 
 .status-completed {
-  background: rgba(33, 150, 243, 0.85);
+  background: #2196f3;
   color: white;
 }
 
@@ -1259,4 +1332,39 @@ footer p {
   .hero-skills-track {
     animation-duration: 20s;
   }
+}
+
+/* ============================================================
+   ALL PROJECTS PAGE
+   ============================================================ */
+.all-projects-page {
+  padding: 140px 40px 80px;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.all-projects-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.all-projects-header h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.all-projects-header p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+.active-nav-link {
+  color: var(--accent) !important;
+}
+
+.active-nav-link::after {
+  width: 100% !important;
 }

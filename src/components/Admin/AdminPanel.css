@@ -353,3 +353,105 @@
   .admin-sidebar.open { transform: translateX(0); }
   .form-row { grid-template-columns: 1fr; }
 }
+
+.file-preview-area {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.75rem;
+  border: 1px solid var(--admin-border);
+}
+
+.file-preview-area p {
+  font-size: 0.75rem;
+  color: var(--admin-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.img-preview-small {
+  width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+  border-radius: 0.5rem;
+}
+
+.img-preview-skill {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 0.25rem;
+  background: white;
+  padding: 4px;
+}
+
+.preview-text {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--admin-success);
+  font-weight: 500;
+}
+
+.action-btn.pinned {
+  border-color: var(--admin-accent);
+  color: var(--admin-accent);
+  background: rgba(99, 102, 241, 0.15);
+}
+
+.form-checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--admin-text-main);
+}
+
+.form-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--admin-accent);
+  cursor: pointer;
+}
+
+.tech-stack-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  background: var(--admin-bg-table);
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.tech-checkbox-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 6px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition: all 0.2s;
+  background: var(--admin-bg-body);
+}
+
+.tech-checkbox-label:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tech-checkbox-label:has(input:checked) {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: var(--admin-accent);
+}
+
+.tech-checkbox-label input {
+  display: none;
+}
+
+.tech-checkbox-label img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}

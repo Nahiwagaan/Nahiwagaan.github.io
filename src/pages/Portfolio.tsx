@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import '../App.css'
 import { db } from '../data/db'
 import type { Project, Certificate, Skill } from '../data/db'
@@ -10,6 +11,7 @@ function Portfolio() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark')
   const [certIndex, setCertIndex] = useState(0)
   const [isFading, setIsFading] = useState(false)
+  const navigate = useNavigate()
 
   // Dynamic States
   const [projects, setProjects] = useState<Project[]>([])
@@ -19,7 +21,7 @@ function Portfolio() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const p = await db.getProjects();
+      const p = await db.getPinnedProjects();
       const c = await db.getCerts();
       const s = await db.getSkills();
       setProjects(p);
@@ -83,7 +85,7 @@ function Portfolio() {
           <nav className="desktop-nav">
             <a href="#home" onClick={(e) => scrollToSection(e, 'home')}>Home</a>
             <a href="#services" onClick={(e) => scrollToSection(e, 'services')}>About</a>
-            <a href="#projects" onClick={(e) => scrollToSection(e, 'projects')}>Projects</a>
+            <a href="/projects" onClick={(e) => { e.preventDefault(); navigate('/projects'); }}>Projects</a>
             <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')}>Contact</a>
           </nav>
 
@@ -114,10 +116,10 @@ function Portfolio() {
         </div>
 
         <div className={`mobile-nav ${menuOpen ? 'open' : ''}`}>
-          <a href="#home" onClick={(e) => scrollToSection(e, 'home')}>Home</a>
-          <a href="#services" onClick={(e) => scrollToSection(e, 'services')}>About</a>
-          <a href="#projects" onClick={(e) => scrollToSection(e, 'projects')}>Projects</a>
-          <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')}>Contact</a>
+          <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection(e, 'home'); }}>Home</a>
+          <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection(e, 'services'); }}>About</a>
+          <a href="/projects" onClick={(e) => { e.preventDefault(); navigate('/projects'); setMenuOpen(false); }}>Projects</a>
+          <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection(e, 'contact'); }}>Contact</a>
         </div>
       </header>
 
@@ -143,7 +145,10 @@ function Portfolio() {
                 <div className="hero-skills-track">
                   {skills.length > 0 ? [...skills, ...skills].map((s, i) => (
                     <div className="hero-skill-item" key={i}>
-                      <img src={`/images/${s.icon === 'javascript' ? 'javascript.svg' : s.icon === 'figma' ? 'figma.webp' : s.icon === 'html' ? 'html.jpg' : `${s.icon}.png`}`} alt={s.name} />
+                      <img
+                        src={s.icon?.startsWith('http') ? s.icon : `/images/${s.icon === 'javascript' ? 'javascript.svg' : s.icon === 'figma' ? 'figma.webp' : s.icon === 'html' ? 'html.jpg' : `${s.icon}.png`}`}
+                        alt={s.name}
+                      />
                       <span>{s.name.toUpperCase()}</span>
                     </div>
                   )) : (
@@ -165,10 +170,10 @@ function Portfolio() {
               show more <span className="services-arrow">→</span>
             </a>
             <div className="social-icons">
-              <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook" className="social-icon fb">f</a>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter" className="social-icon tw">𝕏</a>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram" className="social-icon ig">◉</a>
-              <a href="https://pinterest.com" target="_blank" rel="noreferrer" aria-label="Pinterest" className="social-icon pi">P</a>
+              <a href="https://www.facebook.com/jetpadilla/" target="_blank" rel="noreferrer" aria-label="Facebook" className="social-icon fb">f</a>
+              <a href="https://x.com/Jettty1" target="_blank" rel="noreferrer" aria-label="Twitter" className="social-icon tw">𝕏</a>
+              <a href="https://www.instagram.com/superjetpad/" target="_blank" rel="noreferrer" aria-label="Instagram" className="social-icon ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg></a>
+              <a href="https://ph.pinterest.com/jetpadilla07/" target="_blank" rel="noreferrer" aria-label="Pinterest" className="social-icon pi">P</a>
             </div>
           </div>
         </div>
@@ -225,7 +230,7 @@ function Portfolio() {
                   <iframe
                     src={`${certs[certIndex]?.file_url}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
                     className={`cert-pdf-iframe ${isFading ? 'fading-out' : 'fading-in'}`}
-                    title={certs[certIndex]?.title}
+                    title={`Certificate ${certIndex + 1}`}
                     onLoad={() => {
                       setTimeout(() => setIsFading(false), 150);
                     }}
@@ -253,24 +258,38 @@ function Portfolio() {
         </div>
       </section>
 
-      {/* ── PROJECTS ── */}
+      {/* ── PINNED PROJECTS ── */}
       <section id="projects">
         <h2>My Projects</h2>
         <p>A collection of my work showcasing skills in web development and applications</p>
         <div className="projects-container">
-          {projects.map((p) => (
-            <div className="project-card" key={p.id}>
-              <div className={`status-badge status-${p.status}`}>{p.status.charAt(0).toUpperCase() + p.status.slice(1)}</div>
-              <img src={p.image_url || "/images/unnamed.jpg"} alt={p.title} className="project-image" />
-              <div className="project-content">
-                <div className="project-header">
-                  <h3>{p.title}</h3>
-                  <span className="project-year">{p.year}</span>
+          {projects.length === 0 ? (
+            <p style={{ textAlign: 'center', opacity: 0.6, gridColumn: '1 / -1' }}>No pinned projects yet. Pin projects in the Admin Panel.</p>
+          ) : projects.map((p) => (
+            <a href={p.link_url || '#'} target={p.link_url ? '_blank' : undefined} rel="noreferrer" className="project-card-link" key={p.id}>
+              <div className="project-card">
+                <div className={`status-badge status-${p.status}`}>{p.status.charAt(0).toUpperCase() + p.status.slice(1)}</div>
+                <img src={p.image_url || "/images/unnamed.jpg"} alt={p.title} className="project-image" />
+                <div className="project-content">
+                  <div className="project-header">
+                    <h3>{p.title}</h3>
+                    <span className="project-year">{p.year}</span>
+                  </div>
+                  {p.tech_stack && p.tech_stack.length > 0 && (
+                    <div className="project-tech-stack">
+                      {p.tech_stack.map((icon, idx) => (
+                        <img key={idx} src={icon} alt="Tech" className="tech-icon-small" title="Tech Stack" />
+                      ))}
+                    </div>
+                  )}
+                  <p className="project-description">{p.desc_text}</p>
                 </div>
-                <p className="project-description">{p.desc_text}</p>
               </div>
-            </div>
+            </a>
           ))}
+        </div>
+        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+          <button className="btn-primary" onClick={() => navigate('/projects')}>View All Projects →</button>
         </div>
       </section>
 
@@ -300,34 +319,45 @@ function Portfolio() {
         <div className="contact-inner">
           <h2>Get In Touch</h2>
           <p>Have a project in mind? Let's work together and make it happen.</p>
-          
 
-          <form className="contact-form-main" onSubmit={async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target as HTMLFormElement);
-            const data = Object.fromEntries(formData.entries());
-            try {
-              await db.addMessage({
-                name: data.name as string,
-                email: data.email as string,
-                content: data.message as string
-              });
-              alert('Message sent successfully!');
-              (e.target as HTMLFormElement).reset();
-            } catch (error) {
-              alert('Error sending message. Please try again.');
-              console.error(error);
-            }
-          }}>
-            <div className="form-group-inline">
-              <input type="text" name="name" placeholder="Name" required />
-              <input type="email" name="email" placeholder="Email" required />
-            </div>
-            <textarea name="message" placeholder="Your Message" rows={4} required></textarea>
-            <button type="submit" className="btn-primary">Send Message</button>
-          </form>
 
-          <div className="contact-links" style={{marginTop: '2rem'}}>
+          <div className="contact-form-card">
+            <form className="contact-form-main" onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target as HTMLFormElement);
+              const data = Object.fromEntries(formData.entries());
+              try {
+                await db.addMessage({
+                  name: data.name as string,
+                  email: data.email as string,
+                  content: data.message as string
+                });
+                alert('Message sent successfully!');
+                (e.target as HTMLFormElement).reset();
+              } catch (error) {
+                alert('Error sending message. Please try again.');
+                console.error(error);
+              }
+            }}>
+              <div className="form-group-inline">
+                <div className="input-wrap">
+                  <label>Your Name</label>
+                  <input type="text" name="name" placeholder="John Doe" required />
+                </div>
+                <div className="input-wrap">
+                  <label>Your Email</label>
+                  <input type="email" name="email" placeholder="john@example.com" required />
+                </div>
+              </div>
+              <div className="input-wrap">
+                <label>Project Intent</label>
+                <textarea name="message" placeholder="Briefly describe your vision..." rows={5} required></textarea>
+              </div>
+              <button type="submit" className="btn-transmission">Initiate Transmission</button>
+            </form>
+          </div>
+
+          <div className="contact-links" style={{ marginTop: '2rem' }}>
             <a href="mailto:jetpadilla@email.com" className="contact-btn">Send Email Directly</a>
             <a href="https://www.linkedin.com/in/jet-padilla-b19b68327/" target="_blank" rel="noreferrer" className="contact-btn ghost">LinkedIn</a>
           </div>

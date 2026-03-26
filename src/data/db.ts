@@ -8,6 +8,10 @@ export interface Project {
   status: 'active' | 'completed';
   desc_text: string; 
   image_url?: string;
+  link_url?: string;
+  pinned?: boolean;
+  position?: number;
+  tech_stack?: string[];
   created_at?: string;
 }
 
@@ -46,7 +50,7 @@ export const db = {
   // --- Projects ---
   getProjects: async (): Promise<Project[]> => {
     if (!isSupabaseConfigured()) return getLocalData('projects', []);
-    const { data, error } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
+    const { data, error } = await supabase.from('projects').select('*').order('position', { ascending: true, nullsFirst: false }).order('created_at', { ascending: false });
     if (error) { console.error(error); return getLocalData('projects', []); }
     return data as Project[];
   },
@@ -60,6 +64,34 @@ export const db = {
     if (!isSupabaseConfigured()) return;
     const { error } = await supabase.from('projects').delete().eq('id', id);
     if (error) throw error;
+  },
+  getPinnedProjects: async (): Promise<Project[]> => {
+    if (!isSupabaseConfigured()) return getLocalData('projects', []).filter((p: Project) => p.pinned).slice(0, 9);
+    const { data, error } = await supabase.from('projects').select('*').eq('pinned', true).order('position', { ascending: true, nullsFirst: false }).order('created_at', { ascending: false }).limit(9);
+    if (error) { console.error(error); return []; }
+    return data as Project[];
+  },
+  togglePin: async (id: string, pinned: boolean) => {
+    if (!isSupabaseConfigured()) return;
+    const { error } = await supabase.from('projects').update({ pinned }).eq('id', id);
+    if (error) throw error;
+  },
+  updateProjectPositions: async (orderedProjects: Project[]) => {
+    if (!isSupabaseConfigured()) return;
+    const updates = orderedProjects.map((p, index) => ({
+      id: p.id,
+      title: p.title,
+      year: p.year,
+      status: p.status,
+      desc_text: p.desc_text,
+      image_url: p.image_url,
+      link_url: p.link_url,
+      pinned: p.pinned,
+      tech_stack: p.tech_stack,
+      position: index
+    }));
+    const { error } = await supabase.from('projects').upsert(updates);
+    if (error) console.error('Error updating positions:', error);
   },
 
   // --- Certificates ---

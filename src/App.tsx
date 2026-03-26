@@ -1,6 +1,7 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Portfolio from './pages/Portfolio';
+import Projects from './pages/Projects';
 import AdminPanel from './components/Admin/AdminPanel';
 import './components/Admin/AdminPanel.css';
 
@@ -9,6 +10,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Portfolio />} />
+        <Route path="/projects" element={<Projects />} />
         <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </Router>

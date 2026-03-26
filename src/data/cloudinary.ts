@@ -16,16 +16,20 @@ export const uploadToCloudinary = async (file: File) => {
 
   try {
     const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, // 'auto' handles PDF, images, etc.
+      `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
       { method: 'POST', body: formData }
     );
 
     const data = await response.json();
-    if (data.error) throw data.error;
+    if (!response.ok) {
+        console.error('Cloudinary API Error:', data);
+        throw data.error || data;
+    }
     return data.secure_url;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Cloudinary Upload Error:', error);
-    alert('Upload failed! Check your Cloudinary configuration.');
+    const msg = error.message || (typeof error === 'string' ? error : 'Check Cloudinary settings');
+    alert(`Upload failed! ${msg}`);
     return null;
   }
 };
