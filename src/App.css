@@ -93,7 +93,7 @@ header.scrolled {
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  flex-shrink: 0;
+  flex: 1;
 }
 
 .logo-emoji {
@@ -150,6 +150,8 @@ header.scrolled {
   display: flex;
   align-items: center;
   gap: 14px;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .nav-icon {
