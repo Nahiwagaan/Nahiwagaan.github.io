@@ -192,7 +192,7 @@ export const db = {
     const { data, error } = await supabase.from('messages').select('*').order('created_at', { ascending: false });
     if (error) { console.error(error); return getLocalData('messages', []); }
     
-    const messages = data.map(m => ({ ...m, date: m.created_at || new Date().toISOString() })) as Message[];
+    const messages = data.map((m: any) => ({ ...m, date: m.created_at || new Date().toISOString() })) as Message[];
     setCache('messages_all', messages);
     return messages;
   },
