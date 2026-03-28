@@ -29,6 +29,7 @@ function Portfolio() {
       setSkills(s);
     };
     fetchData();
+    window.scrollTo(0, 0);
   }, [])
 
   const handleCertChange = (newIndex: number) => {
@@ -141,10 +142,11 @@ function Portfolio() {
           <div className="hero-left">
             <p className="hero-greeting">I'm</p>
             <h1 className="hero-name">Jet <span className="hero-name-alt">Padilla</span></h1>
+            <p className="hero-role">Software Developer · UI/UX Designer · AI Enthusiast</p>
             <div className="hero-underline"></div>
             <p className="hero-desc">
-              An aspiring web developer who provides services for digital programming
-              and design content needs, for all businesses with more than 4 years of experience.
+              Designing intuitive web experiences and bringing ideas to life
+              through clean interfaces   powered by AI, driven by craft.
             </p>
             <div className="hero-cta">
               <button className="btn-primary" onClick={(e) => scrollToSection(e as any, 'contact')}>Let's Connect!</button>
@@ -177,7 +179,7 @@ function Portfolio() {
 
           <div className="hero-right">
             <p className="services-label">Services</p>
-            <h2 className="services-heading">Let's build quality products in programming and design with my services</h2>
+            <h2 className="services-heading">Let's turn your ideas into polished, functional products.</h2>
             <a href="#projects" className="services-link" onClick={(e) => scrollToSection(e as any, 'projects')}>
               show more <span className="services-arrow">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -187,7 +189,6 @@ function Portfolio() {
               <a href="https://www.facebook.com/jetpadilla/" target="_blank" rel="noreferrer" aria-label="Facebook" className="social-icon fb">f</a>
               <a href="https://x.com/Jettty1" target="_blank" rel="noreferrer" aria-label="Twitter" className="social-icon tw">𝕏</a>
               <a href="https://www.instagram.com/superjetpad/" target="_blank" rel="noreferrer" aria-label="Instagram" className="social-icon ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg></a>
-              <a href="https://ph.pinterest.com/jetpadilla07/" target="_blank" rel="noreferrer" aria-label="Pinterest" className="social-icon pi">P</a>
             </div>
           </div>
         </div>
@@ -200,8 +201,9 @@ function Portfolio() {
             <div className="services-text-left">
               <h2 className="services-big-title">How I Can Help You<br />With My Services</h2>
               <p className="services-desc">
-                It is easier to entrust the work to the experts because they are able to provide
-                the best results with reliable quality.
+                I turn ideas into real, functional products from design to
+                deployment. Every project is built with intention, precision,
+                and a commitment to quality.
               </p>
             </div>
             <div className="service-cards-stack">
@@ -241,11 +243,7 @@ function Portfolio() {
           <div className="carousel-section-header">
             <div className="section-label">CERTIFICATIONS</div>
           </div>
-          <div className="carousel-main-row">
-            <button onClick={prevCert} className="carousel-side-btn prev" aria-label="Previous Cert">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="24" height="24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-
+          <div className="carousel-container">
             <div className="cert-preview-large centered">
               <div className="cert-viewer-box">
                 {certs.length > 0 ? (
@@ -263,28 +261,34 @@ function Portfolio() {
                 )}
               </div>
 
-              <div className="carousel-pagination">
-                {certs.map((_, idx) => (
-                  <button
-                    key={idx}
-                    className={`pagination-dot ${idx === certIndex ? 'active' : ''}`}
-                    onClick={() => handleCertChange(idx)}
-                    aria-label={`Go to certificate ${idx + 1}`}
-                  />
-                ))}
+              <div className="carousel-controls-bottom">
+                <button onClick={prevCert} className="carousel-side-btn prev" aria-label="Previous Cert">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="24" height="24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+
+                <div className="carousel-pagination">
+                  {certs.map((_, idx) => (
+                    <button
+                      key={idx}
+                      className={`pagination-dot ${idx === certIndex ? 'active' : ''}`}
+                      onClick={() => handleCertChange(idx)}
+                      aria-label={`Go to certificate ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button onClick={nextCert} className="carousel-side-btn next" aria-label="Next Cert">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="24" height="24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
               </div>
             </div>
-
-            <button onClick={nextCert} className="carousel-side-btn next" aria-label="Next Cert">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="24" height="24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
           </div>
         </div>
       </section>
 
       {/* ── PINNED PROJECTS ── */}
       <section id="projects">
-        <h2>My Projects</h2>
+        <h2>Projects</h2>
         <p>A collection of my work showcasing skills in web development and applications</p>
         <div className="projects-container">
           {projects.length === 0 ? (
@@ -353,6 +357,15 @@ function Portfolio() {
               e.preventDefault();
               const formData = new FormData(e.target as HTMLFormElement);
               const data = Object.fromEntries(formData.entries());
+
+              // Honeypot check: If the hidden field is filled, it's a bot.
+              if (data.hp_phone) {
+                console.warn('Spam detected via honeypot.');
+                (e.target as HTMLFormElement).reset();
+                alert('Message sent successfully!'); // Fake success to deter bots from trying again
+                return;
+              }
+
               try {
                 await db.addMessage({
                   name: data.name as string,
@@ -366,6 +379,11 @@ function Portfolio() {
                 console.error(error);
               }
             }}>
+              {/* HONEYPOT FIELD (Hidden from humans) */}
+              <div style={{ display: 'none' }} aria-hidden="true">
+                <input type="text" name="hp_phone" tabIndex={-1} autoComplete="off" />
+              </div>
+
               <div className="form-group-inline">
                 <div className="input-wrap">
                   <label>Your Name</label>
@@ -380,18 +398,18 @@ function Portfolio() {
                 <label>Project Intent</label>
                 <textarea name="message" placeholder="Briefly describe your vision..." rows={5} required></textarea>
               </div>
-              <button type="submit" className="btn-transmission">Initiate Transmission</button>
+              <button type="submit" className="btn-transmission">Submit</button>
             </form>
           </div>
 
           <div className="contact-links" style={{ marginTop: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-            <a href="mailto:jetpadilla07@gmail.com" className="contact-btn" style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=jetpadilla07@gmail.com&su=Project Intent" target="_blank" rel="noreferrer" className="contact-btn" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
+                <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" />
               </svg>
               Email Me
             </a>
-            <a href="https://www.linkedin.com/in/jet-padilla-b19b68327/" target="_blank" rel="noreferrer" className="contact-btn ghost" style={{display: 'flex', alignItems: 'center', gap: '0.6rem'}}>
+            <a href="https://www.linkedin.com/in/jet-padilla-b19b68327/" target="_blank" rel="noreferrer" className="contact-btn ghost" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" /></svg>
               LinkedIn
             </a>

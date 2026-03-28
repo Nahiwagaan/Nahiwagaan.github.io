@@ -283,7 +283,15 @@ header.scrolled {
   font-weight: 800;
   color: var(--text-primary);
   line-height: 1.05;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
+}
+
+.hero-role {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 16px;
+  letter-spacing: 0.01em;
 }
 
 .hero-name-alt {
@@ -539,7 +547,7 @@ header.scrolled {
 
 /* ── Hero Skills Inline ── */
 .hero-skills-inline {
-  margin-top: 50px;
+  margin-top: 20px;
   width: 100%;
   max-width: 360px;
   position: relative;
@@ -745,12 +753,10 @@ header.scrolled {
 }
 
 /* Carousel Row (Bottom Centered) */
-.carousel-main-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 50px;
+.carousel-container {
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .carousel-side-btn {
@@ -831,13 +837,20 @@ header.scrolled {
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-out, z-index 0s;
 }
 
+.carousel-controls-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 24px;
+}
+
 /* Pagination Dots */
 .carousel-pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
-  margin-top: 24px;
 }
 
 .pagination-dot {
@@ -870,7 +883,7 @@ header.scrolled {
     gap: 40px;
   }
 
-  .carousel-main-row {
+  .carousel-controls-bottom {
     gap: 20px;
   }
 
@@ -878,6 +891,43 @@ header.scrolled {
     width: 44px;
     height: 44px;
     font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cert-preview-large.centered {
+    padding: 20px;
+  }
+
+  .carousel-controls-bottom {
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .carousel-side-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cert-preview-large.centered {
+    padding: 12px;
+    border-radius: var(--radius-md);
+  }
+
+  .carousel-controls-bottom {
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .carousel-side-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .carousel-pagination {
+    gap: 8px;
   }
 }
 

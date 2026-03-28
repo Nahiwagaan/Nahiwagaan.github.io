@@ -17,6 +17,7 @@ function Projects() {
       setProjects(p)
     }
     fetchProjects()
+    window.scrollTo(0, 0)
   }, [])
 
   useEffect(() => {
@@ -45,7 +46,7 @@ function Projects() {
           <nav className="desktop-nav">
             <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }}>Home</a>
             <a href="/#services" onClick={(e) => { e.preventDefault(); navigate('/#services'); }}>About</a>
-            <a href="/projects" className="active-nav-link" onClick={(e) => e.preventDefault()}>Projects</a>
+            <a href="/projects" className="active-nav-link" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Projects</a>
             <a href="/#contact" onClick={(e) => { e.preventDefault(); navigate('/#contact'); }}>Contact</a>
           </nav>
 

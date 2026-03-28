@@ -207,7 +207,7 @@ const AdminPanel = () => {
                           <td><strong>{p.title}</strong></td><td>{p.year}</td>
                           <td><span className={`status-pill ${p.status}`}>{p.status}</span></td>
                           <td>
-                            <button 
+                            <button
                               className={`action-btn ${p.pinned ? 'pinned' : ''}`}
                               onClick={async () => { await db.togglePin(p.id, !p.pinned); loadData(); }}
                               title={p.pinned ? 'Unpin from homepage' : 'Pin to homepage'}
@@ -248,7 +248,7 @@ const AdminPanel = () => {
                       {skills.map(s => (
                         <tr key={s.id}>
                           <td>{s.name}</td>
-                          <td>{s.icon ? <img src={s.icon} alt={s.name} style={{height:'30px',width:'30px',objectFit:'contain'}} /> : 'No Icon'}</td>
+                          <td>{s.icon ? <img src={s.icon} alt={s.name} style={{ height: '30px', width: '30px', objectFit: 'contain' }} /> : 'No Icon'}</td>
                           <td className="actions-cell">
                             <button className="action-btn edit" onClick={() => { setEditingItem(s); setShowForm(true); }}><Edit size={16} /></button>
                             <button className="action-btn delete" onClick={() => deleteItem('skills', s.id)}><Trash2 size={16} /></button>
