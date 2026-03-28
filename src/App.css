@@ -15,6 +15,7 @@
   --header-scrolled: rgba(30, 33, 48, 0.97);
   --mobile-nav-bg: rgba(30, 33, 48, 0.98);
   --accent: #f5c842;
+  --accent-text: #111;
   --accent-hover: #e0b430;
   --text-primary: #ffffff;
   --text-muted: rgba(255, 255, 255, 0.55);
@@ -36,12 +37,14 @@
   --header-scrolled: rgba(243, 244, 246, 0.97);
   --mobile-nav-bg: rgba(243, 244, 246, 0.98);
   --accent: #4a6cf7;
+  --accent-text: #ffffff;
   /* Adjust accent for better light contrast */
   --accent-hover: #3b5bdb;
   --text-primary: #111827;
   --text-muted: #6b7280;
   --text-soft: #374151;
-  --border: #e5e7eb;
+  --border: #d1d5db;
+  --border-ghost: #111827;
 }
 
 /* ============================================================
@@ -311,7 +314,7 @@ header.scrolled {
 
 .btn-primary {
   background: var(--accent);
-  color: #111;
+  color: var(--accent-text);
   border: none;
   padding: 13px 28px;
   border-radius: var(--radius-md);
@@ -325,14 +328,13 @@ header.scrolled {
 .btn-primary:hover {
   background: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(245, 200, 66, 0.35);
 }
 
 .btn-ghost {
   text-decoration: none;
   background: transparent;
   color: var(--text-soft);
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border: 1.5px solid var(--border-ghost, var(--border));
   padding: 13px 28px;
   border-radius: var(--radius-md);
   font-size: 0.93rem;
@@ -389,7 +391,7 @@ header.scrolled {
   font-size: 0.75rem;
   letter-spacing: 0.1em;
   font-weight: 700;
-  color: #f5c842;
+  color: var(--accent);
   text-transform: uppercase;
 }
 
@@ -412,28 +414,28 @@ header.scrolled {
 .input-wrap textarea:focus {
   outline: none;
   background: rgba(0, 0, 0, 0.4);
-  border-bottom-color: #b59b74;
+  border-bottom-color: var(--accent);
 }
 
 .btn-transmission {
   margin-top: 10px;
   width: 100%;
   padding: 18px;
-  background: #f5c842;
-  color: #111;
+  background: var(--accent);
+  color: var(--accent-text);
   font-size: 1.05rem;
   font-weight: 700;
   border: none;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 20px rgba(168, 131, 84, 0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .btn-transmission:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 25px rgba(168, 131, 84, 0.4);
-  background: linear-gradient(135deg, #d4b28a 0%, #b89263 100%);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+  background: var(--accent-hover);
 }
 
 /* ── Center photo ── */
@@ -498,7 +500,8 @@ header.scrolled {
 }
 
 .services-arrow {
-  font-size: 1rem;
+  display: flex;
+  align-items: center;
 }
 
 /* Social icons */
@@ -705,7 +708,7 @@ header.scrolled {
 }
 
 .service-card:hover {
-  border-color: rgba(245, 200, 66, 0.3);
+  border-color: var(--accent);
   background: var(--bg-card-alt);
   transform: translateX(8px);
 }
@@ -731,8 +734,14 @@ header.scrolled {
 
 .service-arrow {
   color: var(--accent);
-  font-size: 1.3rem;
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  transition: transform var(--transition);
+}
+
+.service-card:hover .service-arrow {
+  transform: translateX(5px);
 }
 
 /* Carousel Row (Bottom Centered) */
@@ -746,25 +755,28 @@ header.scrolled {
 
 .carousel-side-btn {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid var(--border);
   color: var(--text-primary);
-  width: 60px;
-  height: 60px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.6rem;
   transition: all var(--transition);
   flex-shrink: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
 .carousel-side-btn:hover {
   background: var(--accent);
-  color: #111;
+  color: var(--accent-text);
   border-color: var(--accent);
   transform: scale(1.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
 }
 
 .cert-preview-large.centered {
@@ -922,7 +934,7 @@ header.scrolled {
 .project-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  border-color: rgba(245, 200, 66, 0.2);
+  border-color: var(--accent);
 }
 
 .project-image {
@@ -1053,7 +1065,7 @@ header.scrolled {
 .workflow-step:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-  border-color: rgba(245, 200, 66, 0.25);
+  border-color: var(--accent);
 }
 
 .step-number {
@@ -1061,7 +1073,7 @@ header.scrolled {
   top: -14px;
   left: 20px;
   background: var(--accent);
-  color: #111;
+  color: var(--accent-text);
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -1151,7 +1163,7 @@ header.scrolled {
   text-decoration: none;
   transition: all var(--transition);
   background: var(--accent);
-  color: #111;
+  color: var(--accent-text);
   border: none;
   cursor: pointer;
 }
@@ -1159,13 +1171,12 @@ header.scrolled {
 .contact-btn:hover {
   background: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(245, 200, 66, 0.3);
 }
 
 .contact-btn.ghost {
   background: transparent;
   color: var(--text-soft);
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border: 1.5px solid var(--border-ghost, var(--border));
 }
 
 .contact-btn.ghost:hover {

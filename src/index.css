@@ -31,11 +31,11 @@ body {
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #1e2130; }
-::-webkit-scrollbar-thumb { background: #3a3d54; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #f5c842; }
+::-webkit-scrollbar-track { background: var(--bg-1); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: #3a3d54 #1e2130;
+  scrollbar-color: var(--border) var(--bg-1);
 }

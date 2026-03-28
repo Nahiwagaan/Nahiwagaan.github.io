@@ -179,7 +179,9 @@ function Portfolio() {
             <p className="services-label">Services</p>
             <h2 className="services-heading">Let's build quality products in programming and design with my services</h2>
             <a href="#projects" className="services-link" onClick={(e) => scrollToSection(e as any, 'projects')}>
-              show more <span className="services-arrow">→</span>
+              show more <span className="services-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </span>
             </a>
             <div className="social-icons">
               <a href="https://www.facebook.com/jetpadilla/" target="_blank" rel="noreferrer" aria-label="Facebook" className="social-icon fb">f</a>
@@ -209,7 +211,9 @@ function Portfolio() {
                   <h3>UI/UX Design</h3>
                   <p>7 Projects</p>
                 </div>
-                <span className="service-arrow">→</span>
+                <span className="service-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
               </a>
               <a href="#projects" className="service-card" onClick={(e) => scrollToSection(e as any, 'projects')}>
                 <img src="/images/frontend.jfif" alt="Front End Develop" className="service-thumb" />
@@ -217,7 +221,9 @@ function Portfolio() {
                   <h3>Front End Development</h3>
                   <p>4 Projects</p>
                 </div>
-                <span className="service-arrow">→</span>
+                <span className="service-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
               </a>
               <a href="#projects" className="service-card" onClick={(e) => scrollToSection(e as any, 'projects')}>
                 <img src="/images/mobile.jfif" alt="Mobile App Develop" className="service-thumb" />
@@ -225,7 +231,9 @@ function Portfolio() {
                   <h3>Mobile App Development</h3>
                   <p>2 Projects</p>
                 </div>
-                <span className="service-arrow">→</span>
+                <span className="service-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
               </a>
             </div>
           </div>
@@ -234,7 +242,9 @@ function Portfolio() {
             <div className="section-label">CERTIFICATIONS</div>
           </div>
           <div className="carousel-main-row">
-            <button onClick={prevCert} className="carousel-side-btn prev" aria-label="Previous Cert">←</button>
+            <button onClick={prevCert} className="carousel-side-btn prev" aria-label="Previous Cert">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="24" height="24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
 
             <div className="cert-preview-large centered">
               <div className="cert-viewer-box">
@@ -265,7 +275,9 @@ function Portfolio() {
               </div>
             </div>
 
-            <button onClick={nextCert} className="carousel-side-btn next" aria-label="Next Cert">→</button>
+            <button onClick={nextCert} className="carousel-side-btn next" aria-label="Next Cert">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="24" height="24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
           </div>
         </div>
       </section>
@@ -301,7 +313,10 @@ function Portfolio() {
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-          <button className="btn-primary" onClick={() => navigate('/projects')}>View All Projects →</button>
+          <button className="btn-primary" onClick={() => navigate('/projects')} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+            View All Projects
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
         </div>
       </section>
 
@@ -369,9 +384,17 @@ function Portfolio() {
             </form>
           </div>
 
-          <div className="contact-links" style={{ marginTop: '2rem' }}>
-            <a href="mailto:jetpadilla@email.com" className="contact-btn">Send Email Directly</a>
-            <a href="https://www.linkedin.com/in/jet-padilla-b19b68327/" target="_blank" rel="noreferrer" className="contact-btn ghost">LinkedIn</a>
+          <div className="contact-links" style={{ marginTop: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+            <a href="mailto:jetpadilla07@gmail.com" className="contact-btn" style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+              <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
+              </svg>
+              Email Me
+            </a>
+            <a href="https://www.linkedin.com/in/jet-padilla-b19b68327/" target="_blank" rel="noreferrer" className="contact-btn ghost" style={{display: 'flex', alignItems: 'center', gap: '0.6rem'}}>
+              <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" /></svg>
+              LinkedIn
+            </a>
           </div>
         </div>
       </section>
