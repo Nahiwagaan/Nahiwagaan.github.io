@@ -53,7 +53,7 @@
 #root {
   position: relative;
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   overflow-x: hidden;
 }
 
@@ -269,6 +269,7 @@ header.scrolled {
 /* ── Left ── */
 .hero-left {
   padding-bottom: 0px;
+  min-width: 0;
 }
 
 .hero-greeting {
@@ -473,6 +474,7 @@ header.scrolled {
 /* ── Right ── */
 .hero-right {
   padding-bottom: 0px;
+  min-width: 0;
 }
 
 .services-label {
@@ -700,6 +702,7 @@ header.scrolled {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  min-width: 0;
 }
 
 .service-card {
@@ -713,6 +716,7 @@ header.scrolled {
   text-decoration: none;
   transition: all var(--transition);
   cursor: pointer;
+  min-width: 0;
 }
 
 .service-card:hover {
@@ -728,11 +732,18 @@ header.scrolled {
   border-radius: var(--radius-sm);
 }
 
+.service-info {
+  min-width: 0;
+  flex: 1;
+}
+
 .service-info h3 {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 4px;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .service-info p {
@@ -1311,6 +1322,10 @@ footer p {
     justify-content: center;
   }
 
+  .hero-skills-inline {
+    margin: 20px auto 0;
+  }
+
   .hero-photo-wrap {
     order: 1;
     margin: 0 auto;
@@ -1388,12 +1403,101 @@ footer p {
     font-size: 1.7rem;
   }
 
+  #projects h2, 
+  #workflow h2, 
+  .contact-inner h2 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+  }
+
+  #projects > p, 
+  #workflow > p, 
+  .contact-inner p {
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+    padding: 0 16px;
+  }
+
   .stat-number {
     font-size: 1.7rem;
   }
 
   .hero-skills-track {
     animation-duration: 20s;
+  }
+
+  .hero-photo-wrap {
+    width: 240px;
+    height: 240px;
+  }
+
+  .service-card {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .service-thumb {
+    width: 55px;
+    height: 45px;
+  }
+
+  .service-info h3 {
+    font-size: 0.95rem;
+  }
+
+  .service-info p {
+    font-size: 0.8rem;
+  }
+
+  .service-arrow {
+    transform: scale(0.8);
+  }
+
+  .header-content {
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .nav-actions {
+    gap: 8px;
+  }
+
+  .nav-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .hero-inner {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .project-image {
+    height: 140px;
+  }
+
+  .project-content {
+    padding: 16px 16px;
+  }
+
+  .project-card h3 {
+    font-size: 1rem;
+  }
+
+  .project-description {
+    font-size: 0.82rem;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .tech-icon-small {
+    width: 16px;
+    height: 16px;
   }
 }
 
