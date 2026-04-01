@@ -175,7 +175,7 @@ function Portfolio() {
           <div className="hero-left">
             <p className="hero-greeting">I'm</p>
             <h1 className="hero-name">Jet <span className="hero-name-alt">Padilla</span></h1>
-            <p className="hero-role">Software Developer · UI/UX Designer · AI Enthusiast</p>
+            <p className="hero-role">Software Developer · Frontend Developer · AI Enthusiast</p>
             <div className="hero-underline"></div>
             <p className="hero-desc">
               Designing intuitive web experiences and bringing ideas to life
