@@ -43,6 +43,18 @@ function Portfolio() {
   const nextCert = () => handleCertChange((certIndex + 1) % certs.length)
   const prevCert = () => handleCertChange((certIndex - 1 + certs.length) % certs.length)
 
+  // Helper to ensure PDFs display on mobile without downloading
+  const getCertSrc = (url: string | undefined) => {
+    if (!url) return '';
+    const isPdf = url.toLowerCase().includes('.pdf');
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    if (isPdf && isMobile) {
+      return `https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`;
+    }
+    return `${url}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`;
+  };
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('theme', theme)
@@ -211,7 +223,6 @@ function Portfolio() {
                 <img src="/images/uiux.jfif" alt="UI/UX Design" className="service-thumb" />
                 <div className="service-info">
                   <h3>UI/UX Design</h3>
-                  <p>7 Projects</p>
                 </div>
                 <span className="service-arrow">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -221,7 +232,6 @@ function Portfolio() {
                 <img src="/images/frontend.jfif" alt="Front End Develop" className="service-thumb" />
                 <div className="service-info">
                   <h3>Front End Development</h3>
-                  <p>4 Projects</p>
                 </div>
                 <span className="service-arrow">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -231,7 +241,6 @@ function Portfolio() {
                 <img src="/images/mobile.jfif" alt="Mobile App Develop" className="service-thumb" />
                 <div className="service-info">
                   <h3>Mobile App Development</h3>
-                  <p>2 Projects</p>
                 </div>
                 <span className="service-arrow">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -248,7 +257,7 @@ function Portfolio() {
               <div className="cert-viewer-box">
                 {certs.length > 0 ? (
                   <iframe
-                    src={`${certs[certIndex]?.file_url}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
+                    src={getCertSrc(certs[certIndex]?.file_url)}
                     className={`cert-pdf-iframe ${isFading ? 'fading-out' : 'fading-in'}`}
                     title={`Certificate ${certIndex + 1}`}
                     onLoad={() => {

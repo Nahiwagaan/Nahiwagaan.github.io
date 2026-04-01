@@ -1268,13 +1268,13 @@ footer p {
    ============================================================ */
 @media (max-width: 1024px) {
   .hero-inner {
-    grid-template-columns: 1fr 200px 1fr;
+    grid-template-columns: 1fr 260px 1fr;
     gap: 20px;
   }
 
   .hero-photo-wrap {
-    width: 280px;
-    height: 280px;
+    width: 240px;
+    height: 240px;
   }
 
   .projects-container {
