@@ -43,17 +43,38 @@ function Portfolio() {
   const nextCert = () => handleCertChange((certIndex + 1) % certs.length)
   const prevCert = () => handleCertChange((certIndex - 1 + certs.length) % certs.length)
 
+  const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+  const isPdfUrl = (url?: string) => !!url && url.toLowerCase().includes('.pdf')
+  const isCloudinaryUrl = (url?: string) => !!url && url.includes('res.cloudinary.com')
+
+  const getMobilePdfPreviewSrc = (url?: string) => {
+    if (!url || !isPdfUrl(url) || !isCloudinaryUrl(url)) return ''
+    return url.replace('/upload/', '/upload/pg_1,f_auto,q_auto,w_1400/')
+  }
+
   // Helper to ensure PDFs display on mobile without downloading
   const getCertSrc = (url: string | undefined) => {
     if (!url) return '';
-    const isPdf = url.toLowerCase().includes('.pdf');
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    
-    if (isPdf && isMobile) {
-      return `https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`;
+    const isPdf = isPdfUrl(url)
+
+    if (isPdf && isMobileDevice) {
+      return `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true&chrome=false`;
     }
     return `${url}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`;
   };
+
+  const activeCert = certs[certIndex]
+  const activeCertUrl = activeCert?.file_url
+  const activeCertLink = activeCert?.link_url || activeCert?.file_url
+  const showMobilePdfPreview = isMobileDevice && isPdfUrl(activeCertUrl)
+  const mobilePdfPreviewSrc = getMobilePdfPreviewSrc(activeCertUrl)
+
+  useEffect(() => {
+    if (showMobilePdfPreview && !mobilePdfPreviewSrc && isFading) {
+      const timer = setTimeout(() => setIsFading(false), 150)
+      return () => clearTimeout(timer)
+    }
+  }, [showMobilePdfPreview, mobilePdfPreviewSrc, isFading])
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
@@ -256,17 +277,37 @@ function Portfolio() {
             <div className="cert-preview-large centered">
               <div className="cert-viewer-box">
                 {certs.length > 0 ? (
-                  <iframe
-                    src={getCertSrc(certs[certIndex]?.file_url)}
-                    className={`cert-pdf-iframe ${isFading ? 'fading-out' : 'fading-in'}`}
-                    title={`Certificate ${certIndex + 1}`}
-                    onLoad={() => {
-                      setTimeout(() => setIsFading(false), 150);
-                    }}
-                    scrolling="no"
-                  />
+                  showMobilePdfPreview ? (
+                    <a href={activeCertLink} target="_blank" rel="noreferrer" className={`cert-mobile-preview-link ${isFading ? 'fading-out' : 'fading-in'}`}>
+                      {mobilePdfPreviewSrc ? (
+                        <img
+                          src={mobilePdfPreviewSrc}
+                          className="cert-mobile-preview"
+                          alt={`Certificate ${certIndex + 1}`}
+                          onLoad={() => {
+                            setTimeout(() => setIsFading(false), 150)
+                          }}
+                        />
+                      ) : (
+                        <span className="cert-mobile-preview-fallback">Open certificate</span>
+                      )}
+                    </a>
+                  ) : (
+                    <iframe
+                      src={getCertSrc(activeCertUrl)}
+                      className={`cert-pdf-iframe ${isFading ? 'fading-out' : 'fading-in'}`}
+                      title={`Certificate ${certIndex + 1}`}
+                      onLoad={() => {
+                        setTimeout(() => setIsFading(false), 150);
+                      }}
+                      scrolling="no"
+                    />
+                  )
                 ) : (
                   <div className="no-certs">No certificates added yet.</div>
+                )}
+                {activeCertLink && !showMobilePdfPreview && (
+                  <a href={activeCertLink} target="_blank" rel="noreferrer" className="cert-link-overlay" aria-label={`Open certificate ${certIndex + 1}`} />
                 )}
               </div>
 

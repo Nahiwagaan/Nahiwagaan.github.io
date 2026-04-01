@@ -5,7 +5,7 @@ import type { Project as ProjectType, Certificate as CertType, Skill as SkillTyp
 import {
   Plus, Trash2, Edit, X, LogOut,
   FolderKanban, Award, Code2, MessageSquare,
-  Menu, Monitor, Upload, Pin, GripVertical
+  Menu, Monitor, Upload, Pin, GripVertical, ExternalLink
 } from 'lucide-react';
 import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import { uploadToCloudinary } from '../../data/cloudinary';
@@ -14,7 +14,8 @@ const AdminPanel = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState<'projects' | 'certs' | 'skills' | 'messages'>('projects');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMobileView, setIsMobileView] = useState(() => window.innerWidth <= 768);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => window.innerWidth > 768);
   const [isUploading, setIsUploading] = useState(false);
 
   // Dashboard States
@@ -52,6 +53,17 @@ const AdminPanel = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobileView(mobile);
+      setIsSidebarOpen(!mobile);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const loadData = async () => {
     setProjects(await db.getProjects());
     setCerts(await db.getCerts());
@@ -79,6 +91,11 @@ const AdminPanel = () => {
   const logout = () => {
     setIsAuthenticated(false);
     localStorage.removeItem('admin_auth');
+  };
+
+  const changeTab = (tab: 'projects' | 'certs' | 'skills' | 'messages') => {
+    setActiveTab(tab);
+    if (isMobileView) setIsSidebarOpen(false);
   };
 
   const deleteItem = async (type: string, id: string) => {
@@ -124,6 +141,8 @@ const AdminPanel = () => {
           return;
         }
         if (uploadedUrl) finalData.file_url = uploadedUrl;
+        const certLink = typeof finalData.link_url === 'string' ? finalData.link_url.trim() : '';
+        finalData.link_url = certLink || null;
         // Auto-generate title from filename
         const urlForTitle = uploadedUrl || editingItem?.file_url || '';
         finalData.title = decodeURIComponent(urlForTitle.split('/').pop()?.replace(/\.[^.]+$/, '') || 'Certificate');
@@ -166,16 +185,19 @@ const AdminPanel = () => {
 
   return (
     <div className="admin-dashboard">
+      {isMobileView && isSidebarOpen && (
+        <button className="admin-sidebar-backdrop" aria-label="Close menu" onClick={() => setIsSidebarOpen(false)} />
+      )}
       <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
         <div className="sidebar-header">
           <div className="logo-area"><div className="logo-dot"></div><span>Admin Panel</span></div>
           <button className="sidebar-toggle" onClick={() => setIsSidebarOpen(!isSidebarOpen)}><Menu size={20} /></button>
         </div>
         <nav className="sidebar-nav">
-          <button className={activeTab === 'projects' ? 'active' : ''} onClick={() => setActiveTab('projects')}><FolderKanban size={20} /><span>Projects</span></button>
-          <button className={activeTab === 'certs' ? 'active' : ''} onClick={() => setActiveTab('certs')}><Award size={20} /><span>Certificates</span></button>
-          <button className={activeTab === 'skills' ? 'active' : ''} onClick={() => setActiveTab('skills')}><Code2 size={20} /><span>Skills</span></button>
-          <button className={activeTab === 'messages' ? 'active' : ''} onClick={() => setActiveTab('messages')}>
+          <button className={activeTab === 'projects' ? 'active' : ''} onClick={() => changeTab('projects')}><FolderKanban size={20} /><span>Projects</span></button>
+          <button className={activeTab === 'certs' ? 'active' : ''} onClick={() => changeTab('certs')}><Award size={20} /><span>Certificates</span></button>
+          <button className={activeTab === 'skills' ? 'active' : ''} onClick={() => changeTab('skills')}><Code2 size={20} /><span>Skills</span></button>
+          <button className={activeTab === 'messages' ? 'active' : ''} onClick={() => changeTab('messages')}>
             <MessageSquare size={20} /><span>Messages</span>
             {messages.filter(m => m.status === 'unread').length > 0 && <span className="msg-badge">{messages.filter(m => m.status === 'unread').length}</span>}
           </button>
@@ -187,7 +209,14 @@ const AdminPanel = () => {
 
       <main className="admin-main">
         <header className="main-header">
-          <div className="header-breadcrumbs">Dashboard / {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</div>
+          <div className="main-header-left">
+            {isMobileView && (
+              <button className="mobile-menu-btn" aria-label="Open menu" onClick={() => setIsSidebarOpen(true)}>
+                <Menu size={18} />
+              </button>
+            )}
+            <div className="header-breadcrumbs">Dashboard / {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</div>
+          </div>
           <button className="add-new-btn" onClick={() => { setEditingItem(null); setShowForm(true); }}>
             <Plus size={18} /><span>Add {activeTab !== 'messages' ? activeTab.slice(0, -1) : 'Item'}</span>
           </button>
@@ -227,13 +256,23 @@ const AdminPanel = () => {
                 )}
                 {activeTab === 'certs' && (
                   <table className="admin-table">
-                    <thead><tr><th>#</th><th>Certificate File</th><th>Actions</th></tr></thead>
+                    <thead><tr><th>#</th><th>Certificate File</th><th>Certification Link</th><th>Actions</th></tr></thead>
                     <tbody>
                       {certs.map((c, idx) => (
                         <tr key={c.id}>
                           <td>{idx + 1}</td>
-                          <td><div className="truncate-text"><a href={c.file_url} target="_blank" rel="noreferrer">{c.file_url?.split('/').pop() || 'View File'}</a></div></td>
+                          <td><div className="truncate-text">{c.file_url?.split('/').pop() || 'Certificate file'}</div></td>
+                          <td><div className="truncate-text">{c.link_url || '-'}</div></td>
                           <td className="actions-cell">
+                            <a className="action-btn view" href={c.file_url} target="_blank" rel="noreferrer" title="View certificate">
+                              <ExternalLink size={16} />
+                            </a>
+                            {c.link_url && (
+                              <a className="action-btn view" href={c.link_url} target="_blank" rel="noreferrer" title="Open certification link">
+                                <ExternalLink size={16} />
+                              </a>
+                            )}
+                            <button className="action-btn edit" onClick={() => { setEditingItem(c); setShowForm(true); }}><Edit size={16} /></button>
                             <button className="action-btn delete" onClick={() => deleteItem('certs', c.id)}><Trash2 size={16} /></button>
                           </td>
                         </tr>
@@ -345,6 +384,10 @@ const AdminPanel = () => {
                     {editingItem?.file_url && !filePreview && (
                       <p className="preview-text">Current: {editingItem.file_url.split('/').pop()}</p>
                     )}
+                  </div>
+                  <div className="form-group">
+                    <label>Certification Link (Optional)</label>
+                    <input name="link_url" defaultValue={editingItem?.link_url} placeholder="https://verify.example.com/certificate-id" />
                   </div>
                 </>
               )}

@@ -17,6 +17,7 @@ export interface Project {
 export interface Certificate {
   id: string;
   file_url: string;
+  link_url?: string;
   title: string;
   issuer: string;
   created_at?: string;
