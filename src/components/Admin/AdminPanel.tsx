@@ -211,7 +211,7 @@ const AdminPanel = () => {
         <header className="main-header">
           <div className="main-header-left">
             {isMobileView && (
-              <button className="mobile-menu-btn" aria-label="Open menu" onClick={() => setIsSidebarOpen(true)}>
+              <button className="mobile-menu-btn" aria-label="Toggle menu" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                 <Menu size={18} />
               </button>
             )}

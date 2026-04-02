@@ -295,6 +295,12 @@ header.scrolled {
   letter-spacing: 0.01em;
 }
 
+.hero-dot {
+  color: var(--text-primary);
+  margin: 0 4px;
+  opacity: 0.8;
+}
+
 .hero-name-alt {
   color: var(--text-primary);
 }

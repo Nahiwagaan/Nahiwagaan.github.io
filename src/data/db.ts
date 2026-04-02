@@ -48,26 +48,38 @@ const isSupabaseConfigured = () => {
 
 // --- In-Memory Cache ---
 const CACHE_DURATION = 1000 * 60 * 5; // 5 minutes cache
-const cache: Record<string, { data: any, timestamp: number }> = {};
+
 
 const getCached = <T>(key: string): T | null => {
-  const cached = cache[key];
-  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-    return cached.data as T;
+  try {
+    const cached = localStorage.getItem(`cache_${key}`);
+    if (cached) {
+      const { data, timestamp } = JSON.parse(cached);
+      if (Date.now() - timestamp < CACHE_DURATION) {
+        return data as T;
+      }
+    }
+  } catch (e) {
+    console.error('Cache read error', e);
   }
   return null;
 }
 
 const setCache = (key: string, data: any) => {
-  cache[key] = { data, timestamp: Date.now() };
+  try {
+    localStorage.setItem(`cache_${key}`, JSON.stringify({ data, timestamp: Date.now() }));
+  } catch (e) {
+    console.error('Cache write error', e);
+  }
 }
 
 const invalidateCache = (prefix: string) => {
-  Object.keys(cache).forEach(key => {
-    if (key.startsWith(prefix)) {
-      delete cache[key];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith(`cache_${prefix}`)) {
+      localStorage.removeItem(key);
     }
-  });
+  }
 }
 
 export const db = {

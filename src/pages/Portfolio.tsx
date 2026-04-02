@@ -21,9 +21,11 @@ function Portfolio() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const p = await db.getPinnedProjects();
-      const c = await db.getCerts();
-      const s = await db.getSkills();
+      const [p, c, s] = await Promise.all([
+        db.getPinnedProjects(),
+        db.getCerts(),
+        db.getSkills()
+      ]);
       setProjects(p);
       setCerts(c);
       setSkills(s);
@@ -177,7 +179,7 @@ function Portfolio() {
           <div className="hero-left">
             <p className="hero-greeting">I'm</p>
             <h1 className="hero-name">Jet <span className="hero-name-alt">Padilla</span></h1>
-            <p className="hero-role">Software Developer · Frontend Developer · AI Enthusiast</p>
+            <p className="hero-role">Software Developer <span className="hero-dot">·</span> Frontend Developer <span className="hero-dot">·</span> Aspiring AI Engineer</p>
             <div className="hero-underline"></div>
             <p className="hero-desc">
               Designing intuitive web experiences and bringing ideas to life
