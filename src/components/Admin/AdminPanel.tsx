@@ -340,6 +340,7 @@ const AdminPanel = () => {
                         <label key={s.id} className="tech-checkbox-label" title={s.name}>
                           <input type="checkbox" name="tech_stack" value={s.icon} defaultChecked={editingItem?.tech_stack?.includes(s.icon) || false} />
                           <img src={s.icon || `/images/icons/${s.name.toLowerCase()}.svg`} alt={s.name} />
+                          <span className="tech-label-text">{s.name}</span>
                         </label>
                       ))}
                     </div>
