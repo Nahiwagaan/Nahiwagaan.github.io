@@ -1,4 +1,4 @@
-
+// Force redeploy - Fixing MIME type error
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Portfolio from './pages/Portfolio';
 import Projects from './pages/Projects';
