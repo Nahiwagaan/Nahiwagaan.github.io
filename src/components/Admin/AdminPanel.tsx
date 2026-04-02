@@ -79,7 +79,7 @@ const AdminPanel = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === '********') {
+    if (password === import.meta.env.VITE_ADMIN_PASSWORD) {
       setIsAuthenticated(true);
       localStorage.setItem('admin_auth', 'true');
       loadData();

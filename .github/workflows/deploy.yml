@@ -46,6 +46,7 @@ jobs:
           VITE_CLOUDINARY_CLOUD_NAME: ${{ secrets.VITE_CLOUDINARY_CLOUD_NAME }}
           VITE_CLOUDINARY_UPLOAD_PRESET: ${{ secrets.VITE_CLOUDINARY_UPLOAD_PRESET }}
           VITE_CLOUDINARY_FOLDER: ${{ secrets.VITE_CLOUDINARY_FOLDER }}
+          VITE_ADMIN_PASSWORD: ${{ secrets.VITE_ADMIN_PASSWORD }}
       - name: Create 404.html for routing
         run: cp dist/index.html dist/404.html
       - name: Setup Pages
