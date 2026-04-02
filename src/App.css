@@ -548,86 +548,7 @@ header.scrolled {
 }
 
 /* ── Hero Skills Inline ── */
-.hero-skills-inline {
-  margin-top: 20px;
-  width: 100%;
-  max-width: 360px;
-  position: relative;
-}
-
-.skills-inline-label {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-}
-
-.hero-skills-inline::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 60px;
-  background: linear-gradient(to left, var(--bg-1), transparent);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.hero-skills-wrapper {
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-}
-
-.hero-skills-track {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 30px;
-  width: fit-content;
-  animation: heroInfiniteSlide 22s linear infinite;
-  padding: 0 5px;
-}
-
-.hero-skills-track:hover {
-  animation-play-state: paused;
-}
-
-.hero-skill-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-  transition: transform var(--transition);
-}
-
-.hero-skill-item:hover {
-  transform: translateY(-2px);
-}
-
-.hero-skill-item img {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-}
-
-.hero-skill-item span {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-soft);
-  letter-spacing: 0.01em;
-}
-
-@keyframes heroInfiniteSlide {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
+/* Unused styles can be removed if needed, but keeping for reference if user reverts */
 
 /* ================================/* ============================================================
    SERVICES / CERTIFICATES (LEFTY TOP + CENTERED CAROUSEL)
@@ -982,6 +903,145 @@ header.scrolled {
 
   .carousel-pagination {
     gap: 8px;
+  }
+}
+
+/* ============================================================
+   TECH STACK / SKILLS SECTION
+   ============================================================ */
+.skills-section {
+  padding: 100px 0;
+  background: var(--bg-1);
+}
+
+.skills-container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.section-header-centered {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-label-centered {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.2rem;
+  color: var(--accent);
+  margin-bottom: 16px;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+.section-title-centered {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.section-subtitle-centered {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 20px;
+}
+
+.skill-card {
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  transition: all var(--transition);
+  cursor: default;
+}
+
+.skill-icon-box {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  transition: all var(--transition);
+}
+
+.skill-card:hover .skill-icon-box {
+  background: var(--bg-card);
+  transform: scale(1.1);
+}
+
+.skill-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.skill-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color var(--transition);
+}
+
+.skill-card:hover .skill-name {
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .skills-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 10px;
+  }
+
+  .skill-card {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .skill-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+  }
+
+  .skill-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .skill-name {
+    font-size: 0.62rem;
+    line-height: 1.1;
+    text-align: center;
+    width: 100%;
+    word-wrap: break-word;
+    letter-spacing: 0;
+  }
+
+  .skills-section {
+    padding: 60px 0;
   }
 }
 

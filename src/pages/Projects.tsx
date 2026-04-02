@@ -34,7 +34,7 @@ function Projects() {
       {/* ── HEADER ── */}
       <header className="scrolled">
         <div className="header-content">
-          <div className="logo" style={{cursor: 'pointer'}} onClick={() => navigate('/')}>
+          <div className="logo" style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
             <img
               src={theme === 'light' ? '/images/logo_light.png' : '/images/default_logo.png'}
               alt="Logo"
@@ -46,6 +46,7 @@ function Projects() {
           <nav className="desktop-nav">
             <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }}>Home</a>
             <a href="/#services" onClick={(e) => { e.preventDefault(); navigate('/#services'); }}>About</a>
+            <a href="/#skills" onClick={(e) => { e.preventDefault(); navigate('/#skills'); }}>Skills</a>
             <a href="/projects" className="active-nav-link" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Projects</a>
             <a href="/#contact" onClick={(e) => { e.preventDefault(); navigate('/#contact'); }}>Contact</a>
           </nav>
@@ -79,6 +80,7 @@ function Projects() {
         <div className={`mobile-nav ${menuOpen ? 'open' : ''}`}>
           <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); setMenuOpen(false); }}>Home</a>
           <a href="/#services" onClick={(e) => { e.preventDefault(); navigate('/#services'); setMenuOpen(false); }}>About</a>
+          <a href="/#skills" onClick={(e) => { e.preventDefault(); navigate('/#skills'); setMenuOpen(false); }}>Skills</a>
           <a href="/projects" onClick={(e) => { e.preventDefault(); setMenuOpen(false); }}>Projects</a>
           <a href="/#contact" onClick={(e) => { e.preventDefault(); navigate('/#contact'); setMenuOpen(false); }}>Contact</a>
         </div>
@@ -92,7 +94,7 @@ function Projects() {
         </div>
         <div className="projects-container">
           {projects.length === 0 ? (
-            <p style={{textAlign:'center', opacity: 0.6}}>Loading projects...</p>
+            <p style={{ textAlign: 'center', opacity: 0.6 }}>Loading projects...</p>
           ) : projects.map((p) => (
             <a href={p.link_url || '#'} target={p.link_url ? '_blank' : undefined} rel="noreferrer" className="project-card-link" key={p.id}>
               <div className="project-card">

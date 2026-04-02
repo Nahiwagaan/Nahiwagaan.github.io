@@ -131,6 +131,7 @@ function Portfolio() {
           <nav className="desktop-nav">
             <a href="#home" onClick={(e) => scrollToSection(e, 'home')}>Home</a>
             <a href="#services" onClick={(e) => scrollToSection(e, 'services')}>About</a>
+            <a href="#skills" onClick={(e) => scrollToSection(e, 'skills')}>Skills</a>
             <a href="/projects" onClick={(e) => { e.preventDefault(); navigate('/projects'); }}>Projects</a>
             <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')}>Contact</a>
           </nav>
@@ -164,6 +165,7 @@ function Portfolio() {
         <div className={`mobile-nav ${menuOpen ? 'open' : ''}`}>
           <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection(e, 'home'); }}>Home</a>
           <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection(e, 'services'); }}>About</a>
+          <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection(e, 'skills'); }}>Skills</a>
           <a href="/projects" onClick={(e) => { e.preventDefault(); navigate('/projects'); setMenuOpen(false); }}>Projects</a>
           <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection(e, 'contact'); }}>Contact</a>
         </div>
@@ -186,24 +188,7 @@ function Portfolio() {
               <a href="/Jet Padilla Resume.pdf" className="btn-ghost" download>Download CV</a>
             </div>
 
-            <div className="hero-skills-inline">
-              <p className="skills-inline-label">Tech Stack</p>
-              <div className="hero-skills-wrapper">
-                <div className="hero-skills-track">
-                  {skills.length > 0 ? [...skills, ...skills].map((s, i) => (
-                    <div className="hero-skill-item" key={i}>
-                      <img
-                        src={s.icon?.startsWith('http') ? s.icon : `/images/${s.icon === 'javascript' ? 'javascript.svg' : s.icon === 'figma' ? 'figma.webp' : s.icon === 'html' ? 'html.jpg' : `${s.icon}.png`}`}
-                        alt={s.name}
-                      />
-                      <span>{s.name.toUpperCase()}</span>
-                    </div>
-                  )) : (
-                    <p>Loading skills...</p>
-                  )}
-                </div>
-              </div>
-            </div>
+
           </div>
 
           <div className="hero-photo-wrap">
@@ -332,6 +317,30 @@ function Portfolio() {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TECH STACK ── */}
+      <section id="skills" className="skills-section">
+        <div className="skills-container">
+          <div className="carousel-section-header">
+            <div className="section-label">TECH STACK</div>
+          </div>
+
+          <div className="skills-grid">
+            {skills.map((s, i) => (
+              <div className="skill-card" key={i}>
+                <div className="skill-icon-box">
+                  <img
+                    src={s.icon?.startsWith('http') ? s.icon : `/images/${s.icon === 'javascript' ? 'javascript.svg' : s.icon === 'figma' ? 'figma.webp' : s.icon === 'html' ? 'html.jpg' : `${s.icon}.png`}`}
+                    alt={s.name}
+                    className="skill-icon"
+                  />
+                </div>
+                <span className="skill-name">{s.name}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
