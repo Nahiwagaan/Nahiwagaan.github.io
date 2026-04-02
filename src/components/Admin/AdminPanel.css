@@ -312,10 +312,11 @@
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(4px);
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Changed from center to allow scrolling if modal is very tall */
   justify-content: center;
   z-index: 1000;
-  padding: 1rem;
+  padding: 2rem 1rem;
+  overflow-y: auto; /* Allow overlay to scroll if modal exceeds height */
 }
 
 .admin-modal {
@@ -323,8 +324,13 @@
   border: 1px solid var(--admin-border);
   border-radius: 1.5rem;
   width: 100%;
-  max-width: 600px;
+  max-width: 630px;
+  max-height: fit-content;
+  margin: auto; /* Push to center when using align-items: flex-start */
   box-shadow: 0 30px 60px -12px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .modal-header {
