@@ -282,11 +282,12 @@ const AdminPanel = () => {
                 )}
                 {activeTab === 'skills' && (
                   <table className="admin-table">
-                    <thead><tr><th>Skill Name</th><th>Icon</th><th>Actions</th></tr></thead>
+                    <thead><tr><th>Skill Name</th><th>Category</th><th>Icon</th><th>Actions</th></tr></thead>
                     <tbody>
                       {skills.map(s => (
                         <tr key={s.id}>
                           <td>{s.name}</td>
+                          <td><span className="status-pill active">{s.category || 'Uncategorized'}</span></td>
                           <td>{s.icon ? <img src={s.icon} alt={s.name} style={{ height: '30px', width: '30px', objectFit: 'contain' }} /> : 'No Icon'}</td>
                           <td className="actions-cell">
                             <button className="action-btn edit" onClick={() => { setEditingItem(s); setShowForm(true); }}><Edit size={16} /></button>
@@ -395,6 +396,15 @@ const AdminPanel = () => {
               {activeTab === 'skills' && (
                 <>
                   <div className="form-group"><label>Skill Name</label><input name="name" defaultValue={editingItem?.name} required /></div>
+                  <div className="form-group">
+                    <label>Category</label>
+                    <select name="category" defaultValue={editingItem?.category || 'Frontend Development'} required>
+                      <option value="Frontend Development">Frontend Development</option>
+                      <option value="Backend Development">Backend Development</option>
+                      <option value="Database & Infra">Database & Infra</option>
+                      <option value="AI Tools & Automation">AI Tools & Automation</option>
+                    </select>
+                  </div>
                   <div className="form-group">
                     <label>Skill Icon</label>
                     <div className="upload-container">

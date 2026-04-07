@@ -15,18 +15,20 @@ function Portfolio() {
 
   // Dynamic States
   const [projects, setProjects] = useState<Project[]>([])
+  const [allProjectsCount, setAllProjectsCount] = useState(0)
   const [certs, setCerts] = useState<Certificate[]>([])
   const [skills, setSkills] = useState<Skill[]>([])
 
 
   useEffect(() => {
     const fetchData = async () => {
-      const [p, c, s] = await Promise.all([
-        db.getPinnedProjects(),
+      const [allP, c, s] = await Promise.all([
+        db.getProjects(),
         db.getCerts(),
         db.getSkills()
       ]);
-      setProjects(p);
+      setProjects(allP.filter(p => p.pinned));
+      setAllProjectsCount(allP.length);
       setCerts(c);
       setSkills(s);
     };
@@ -133,8 +135,16 @@ function Portfolio() {
           <nav className="desktop-nav">
             <a href="#home" onClick={(e) => scrollToSection(e, 'home')}>Home</a>
             <a href="#services" onClick={(e) => scrollToSection(e, 'services')}>About</a>
+            <a href="#experience" onClick={(e) => scrollToSection(e, 'experience')}>Experience</a>
+            <a href="#projects" onClick={(e) => {
+              if (allProjectsCount > 9) {
+                e.preventDefault();
+                navigate('/projects');
+              } else {
+                scrollToSection(e, 'projects');
+              }
+            }}>Projects</a>
             <a href="#skills" onClick={(e) => scrollToSection(e, 'skills')}>Skills</a>
-            <a href="/projects" onClick={(e) => { e.preventDefault(); navigate('/projects'); }}>Projects</a>
             <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')}>Contact</a>
           </nav>
 
@@ -167,8 +177,18 @@ function Portfolio() {
         <div className={`mobile-nav ${menuOpen ? 'open' : ''}`}>
           <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection(e, 'home'); }}>Home</a>
           <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection(e, 'services'); }}>About</a>
+          <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection(e, 'experience'); }}>Experience</a>
+          <a href={allProjectsCount > 9 ? "/projects" : "/"} onClick={(e) => {
+            if (allProjectsCount > 9) {
+              e.preventDefault();
+              navigate('/projects');
+              setMenuOpen(false);
+            } else {
+              e.preventDefault();
+              scrollToSection(e, 'projects');
+            }
+          }}>Projects</a>
           <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection(e, 'skills'); }}>Skills</a>
-          <a href="/projects" onClick={(e) => { e.preventDefault(); navigate('/projects'); setMenuOpen(false); }}>Projects</a>
           <a href="/" onClick={(e) => { e.preventDefault(); scrollToSection(e, 'contact'); }}>Contact</a>
         </div>
       </header>
@@ -179,37 +199,24 @@ function Portfolio() {
           <div className="hero-left">
             <p className="hero-greeting">I'm</p>
             <h1 className="hero-name">Jet <span className="hero-name-alt">Padilla</span></h1>
-            <p className="hero-role">Software Developer <span className="hero-dot">·</span> Frontend Developer <span className="hero-dot">·</span> Aspiring AI Engineer</p>
+            <p className="hero-role">Junior Software Developer <span className="hero-dot">·</span> Frontend Developer <span className="hero-dot">·</span> Aspiring AI Engineer</p>
             <div className="hero-underline"></div>
             <p className="hero-desc">
-              Designing intuitive web experiences and bringing ideas to life
-              through clean interfaces   powered by AI, driven by craft.
+              Junior Software Developer experienced in designing intuitive web applications and building clean, user-friendly interfaces using modern web technologies. Developed responsive systems and AI-powered features, with a focus on usability, performance, and efficient solutions.
             </p>
-            <div className="hero-cta">
-              <button className="btn-primary" onClick={(e) => scrollToSection(e as any, 'contact')}>Let's Connect!</button>
-              <a href="/Jet Padilla Resume.pdf" className="btn-ghost" download>Download CV</a>
-            </div>
-
-
-          </div>
-
-          <div className="hero-photo-wrap">
-            <img src="/images/Untitled.png" alt="Jet Padilla" className="hero-photo" />
-          </div>
-
-          <div className="hero-right">
-            <p className="services-label">Services</p>
-            <h2 className="services-heading">Let's turn your ideas into polished, functional products.</h2>
-            <a href="#projects" className="services-link" onClick={(e) => scrollToSection(e as any, 'projects')}>
-              show more <span className="services-arrow">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-              </span>
-            </a>
             <div className="social-icons">
               <a href="https://www.facebook.com/jetpadilla/" target="_blank" rel="noreferrer" aria-label="Facebook" className="social-icon fb">f</a>
               <a href="https://x.com/Jettty1" target="_blank" rel="noreferrer" aria-label="Twitter" className="social-icon tw">𝕏</a>
               <a href="https://www.instagram.com/superjetpad/" target="_blank" rel="noreferrer" aria-label="Instagram" className="social-icon ig"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg></a>
             </div>
+            <div className="hero-cta">
+              <button className="btn-primary" onClick={(e) => scrollToSection(e as any, 'contact')}>Let's Connect!</button>
+              <a href="/Jet Padilla Resume.pdf" className="btn-ghost" download>Download CV</a>
+            </div>
+          </div>
+
+          <div className="hero-photo-wrap">
+            <img src="/images/Untitled.png" alt="Jet Padilla" className="hero-photo" />
           </div>
         </div>
       </section>
@@ -323,34 +330,48 @@ function Portfolio() {
         </div>
       </section>
 
-      {/* ── TECH STACK ── */}
-      <section id="skills" className="skills-section">
-        <div className="skills-container">
-          <div className="carousel-section-header">
-            <div className="section-label">TECH STACK</div>
+      {/* ── EXPERIENCE ── */}
+      <section id="experience" className="experience-section">
+        <div className="experience-container">
+          <div className="section-header-centered">
+            <h2>Experience</h2>
           </div>
 
-          <div className="skills-grid">
-            {skills.map((s, i) => (
-              <div className="skill-card" key={i}>
-                <div className="skill-icon-box">
-                  <img
-                    src={s.icon?.startsWith('http') ? s.icon : `/images/${s.icon === 'javascript' ? 'javascript.svg' : s.icon === 'figma' ? 'figma.webp' : s.icon === 'html' ? 'html.jpg' : `${s.icon}.png`}`}
-                    alt={s.name}
-                    className="skill-icon"
-                  />
-                </div>
-                <span className="skill-name">{s.name}</span>
-              </div>
-            ))}
+          <div className="experience-grid">
+            {/* WORK EXPERIENCE */}
+            <div className="experience-card">
+              <div className="experience-label">WORK EXPERIENCE</div>
+              <h3 className="experience-title">Web Developer / Head Marketing (OJT)</h3>
+              <p className="experience-details">Bulacan, Philippines | April 2025 - June 2025</p>
+              <ul className="experience-bullets">
+                <li>Designed and developed dual-portal front-end for EASTS Enrollment System serving 30+ users, implementing student registration, class scheduling, and academic record tracking interfaces using Figma prototypes as design foundation.</li>
+                <li>Delivered accessible, user-friendly web interfaces across administrator and student portals, applying UX principles to streamline course enrollment and profile management workflows for a 8-person cross-functional team.</li>
+                <li>Supported digital marketing operations by managing social media scheduling, editing video content, and producing branded materials, contributing to consistent audience engagement across platforms.</li>
+              </ul>
+            </div>
+
+            {/* THESIS PROJECT */}
+            <div className="experience-card">
+              <div className="experience-label">THESIS PROJECT</div>
+              <h3 className="experience-title">Code Mania</h3>
+              <p className="experience-role">Role: Frontend Engineer / Project Lead</p>
+              <p className="experience-details">Interactive Learning Platform | September 2024 - June 2026</p>
+              <ul className="experience-bullets">
+                <li>Led frontend development and UI/UX design as project lead for a gamified coding education platform supporting Python, JavaScript, and C++ challenges.</li>
+                <li>Managed a 5-person team via GitHub Issues, assigning tickets and tracking tasks to deliver a fully responsive interface with progress tracking across administrator and student-facing features.</li>
+                <li>Deployed to classmates and students as test users, incorporating feedback to refine UX and optimize the learning journey from challenge navigation to completion flow.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── PINNED PROJECTS ── */}
       <section id="projects">
-        <h2>Projects</h2>
-        <p>A collection of my work showcasing skills in web development and applications</p>
+        <div className="section-header-centered">
+          <h2>Projects</h2>
+          <p>A collection of my work showcasing skills in web development and applications</p>
+        </div>
         <div className="projects-container">
           {projects.length === 0 ? (
             <p style={{ textAlign: 'center', opacity: 0.6, gridColumn: '1 / -1' }}>No pinned projects yet. Pin projects in the Admin Panel.</p>
@@ -377,11 +398,110 @@ function Portfolio() {
             </a>
           ))}
         </div>
-        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-          <button className="btn-primary" onClick={() => navigate('/projects')} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-            View All Projects
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </button>
+        {allProjectsCount > 9 && (
+          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <button className="btn-primary" onClick={() => navigate('/projects')} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              View All Projects
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </div>
+        )}
+      </section>
+
+      {/* ── TECH STACK ── */}
+      <section id="skills" className="skills-section">
+        <div className="skills-container">
+          <div className="skills-header">
+            <h2>Skills</h2>
+            <p>Tooling and technologies I use to ship reliable products.</p>
+          </div>
+
+          <div className="skills-categories-grid">
+            {[
+              {
+                title: 'Frontend Development',
+                desc: 'Responsive, accessible user interfaces focused on performance and smooth UX.',
+                icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+                keywords: ['frontend', 'ui', 'ux', 'javascript', 'react', 'html', 'css', 'tailwind', 'typescript', 'nextjs', 'figma']
+              },
+              {
+                title: 'Backend Development',
+                desc: 'API design and server-side logic with secure architecture and clean data flow.',
+                icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
+                keywords: ['backend', 'node', 'python', 'api', 'express', 'auth', 'java', 'c#', 'php']
+              },
+              {
+                title: 'Database & Infra',
+                desc: 'Schema design, query optimization, and cloud deployment for reliable systems.',
+                icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
+                keywords: ['database', 'infra', 'sql', 'mysql', 'postgres', 'docker', 'aws', 'github', 'git', 'deploy', 'supabase', 'mongodb', 'firebase', 'vercel']
+              },
+              {
+                title: 'AI Tools & Automation',
+                desc: 'Integrating intelligent models and building automated agents to enhance efficiency.',
+                icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg', // Using Python as AI proxy or finding a better SVG
+                keywords: ['ai', 'artificial intelligence', 'ml', 'machine learning', 'openai', 'gemini', 'claude', 'langchain', 'n8n', 'automation', 'agent', 'bot', 'diffusion', 'llm', 'nlp']
+              }
+            ].map((cat, idx) => {
+              const matchedSkills = skills.filter(s => {
+                // If category is explicitly set in DB, use exact match
+                if (s.category && s.category.toLowerCase() === cat.title.toLowerCase()) {
+                  return true;
+                }
+
+                // Fallback to keyword matching, but exclude dangerous partials
+                return cat.keywords.some(kw => {
+                  const name = s.name?.toLowerCase() || '';
+                  const category = s.category?.toLowerCase() || '';
+
+                  // For very short keywords like 'ml' or 'ai', use word boundaries or exact matches
+                  if (kw.length <= 2) {
+                    const regex = new RegExp(`\\b${kw}\\b`, 'i');
+                    return regex.test(name) || regex.test(category);
+                  }
+
+                  return name.includes(kw) || category.includes(kw);
+                });
+              });
+
+              return (
+                <div className="skill-category-card" key={idx}>
+                  <div className="category-icon-box">
+                    <img
+                      src={`/images/${cat.icon}`}
+                      alt={cat.title}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/images/default_logo.png';
+                      }}
+                    />
+                  </div>
+                  <h3 className="category-title">{cat.title}</h3>
+                  <p className="category-desc">{cat.desc}</p>
+                  <div className="category-tags">
+                    {matchedSkills.length > 0 ? (
+                      matchedSkills.map(s => (
+                        <span className="skill-tag" key={s.id}>
+                          <img
+                            src={s.icon?.startsWith('http') ? s.icon : `/images/${s.icon === 'javascript' ? 'javascript.svg' : s.icon === 'figma' ? 'figma.webp' : s.icon === 'html' ? 'html.jpg' : `${s.icon}.png`}`}
+                            alt={s.name}
+                            className="tag-icon"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                          {s.name}
+                        </span>
+                      ))
+                    ) : (
+                      cat.keywords.slice(0, 4).map(kw => (
+                        <span className="skill-tag" key={kw}>{kw.charAt(0).toUpperCase() + kw.slice(1)}</span>
+                      ))
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
