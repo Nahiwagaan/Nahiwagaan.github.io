@@ -421,26 +421,27 @@ function Portfolio() {
               {
                 title: 'Frontend Development',
                 desc: 'Responsive, accessible user interfaces focused on performance and smooth UX.',
-                icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
                 keywords: ['frontend', 'ui', 'ux', 'javascript', 'react', 'html', 'css', 'tailwind', 'typescript', 'nextjs', 'figma']
               },
               {
                 title: 'Backend Development',
                 desc: 'API design and server-side logic with secure architecture and clean data flow.',
-                icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
                 keywords: ['backend', 'node', 'python', 'api', 'express', 'auth', 'java', 'c#', 'php']
               },
               {
                 title: 'Database & Infra',
                 desc: 'Schema design, query optimization, and cloud deployment for reliable systems.',
-                icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
-                keywords: ['database', 'infra', 'sql', 'mysql', 'postgres', 'docker', 'aws', 'github', 'git', 'deploy', 'supabase', 'mongodb', 'firebase', 'vercel']
+                keywords: ['database', 'infra', 'sql', 'mysql', 'postgres', 'docker', 'aws', 'deploy', 'supabase', 'mongodb', 'firebase', 'vercel']
               },
               {
                 title: 'AI Tools & Automation',
                 desc: 'Integrating intelligent models and building automated agents to enhance efficiency.',
-                icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg', // Using Python as AI proxy or finding a better SVG
                 keywords: ['ai', 'artificial intelligence', 'ml', 'machine learning', 'openai', 'gemini', 'claude', 'langchain', 'n8n', 'automation', 'agent', 'bot', 'diffusion', 'llm', 'nlp']
+              },
+              {
+                title: 'Tools & Others',
+                desc: 'Essential development utilities and specialized software for various workflows.',
+                keywords: ['git', 'github', 'cloudinary', 'tiled', 'unity', 'photoshop', 'illustrator', 'premiere', 'after effects', 'slack', 'notion']
               }
             ].map((cat, idx) => {
               const matchedSkills = skills.filter(s => {
@@ -466,15 +467,6 @@ function Portfolio() {
 
               return (
                 <div className="skill-category-card" key={idx}>
-                  <div className="category-icon-box">
-                    <img
-                      src={`/images/${cat.icon}`}
-                      alt={cat.title}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/images/default_logo.png';
-                      }}
-                    />
-                  </div>
                   <h3 className="category-title">{cat.title}</h3>
                   <p className="category-desc">{cat.desc}</p>
                   <div className="category-tags">
