@@ -60,9 +60,10 @@ function Portfolio() {
   const getCertSrc = (url: string | undefined) => {
     if (!url) return '';
     const isPdf = isPdfUrl(url)
+    const absoluteUrl = url.startsWith('/') ? `${window.location.origin}${url}` : url;
 
     if (isPdf && isMobileDevice) {
-      return `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true&chrome=false`;
+      return `https://docs.google.com/gview?url=${encodeURIComponent(absoluteUrl)}&embedded=true&chrome=false`;
     }
     return `${url}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`;
   };
@@ -211,7 +212,7 @@ function Portfolio() {
             </div>
             <div className="hero-cta">
               <button className="btn-primary" onClick={(e) => scrollToSection(e as any, 'contact')}>Let's Connect!</button>
-              <a href="/Jet Padilla Resume.pdf" className="btn-ghost" download>Download CV</a>
+              <a href="https://drive.google.com/file/d/1z0lO5nPXp66M3gAUKN90mPp7P8y2F7mG/view?usp=sharing" target="_blank" rel="noreferrer" className="btn-ghost">Preview CV</a>
             </div>
           </div>
 
@@ -521,70 +522,21 @@ function Portfolio() {
       {/* ── CONTACT ── */}
       <section id="contact" className="contact-section">
         <div className="contact-inner">
-          <h2>Get In Touch</h2>
-          <p>Have a project in mind? Let's work together and make it happen.</p>
-
-
-          <div className="contact-form-card">
-            <form className="contact-form-main" onSubmit={async (e) => {
-              e.preventDefault();
-              const formData = new FormData(e.target as HTMLFormElement);
-              const data = Object.fromEntries(formData.entries());
-
-              // Honeypot check: If the hidden field is filled, it's a bot.
-              if (data.hp_phone) {
-                console.warn('Spam detected via honeypot.');
-                (e.target as HTMLFormElement).reset();
-                alert('Message sent successfully!'); // Fake success to deter bots from trying again
-                return;
-              }
-
-              try {
-                await db.addMessage({
-                  name: data.name as string,
-                  email: data.email as string,
-                  content: data.message as string
-                });
-                alert('Message sent successfully!');
-                (e.target as HTMLFormElement).reset();
-              } catch (error) {
-                alert('Error sending message. Please try again.');
-                console.error(error);
-              }
-            }}>
-              {/* HONEYPOT FIELD (Hidden from humans) */}
-              <div style={{ display: 'none' }} aria-hidden="true">
-                <input type="text" name="hp_phone" tabIndex={-1} autoComplete="off" />
-              </div>
-
-              <div className="form-group-inline">
-                <div className="input-wrap">
-                  <label>Your Name</label>
-                  <input type="text" name="name" placeholder="John Doe" required />
-                </div>
-                <div className="input-wrap">
-                  <label>Your Email</label>
-                  <input type="email" name="email" placeholder="john@example.com" required />
-                </div>
-              </div>
-              <div className="input-wrap">
-                <label>Project Intent</label>
-                <textarea name="message" placeholder="Briefly describe your vision..." rows={5} required></textarea>
-              </div>
-              <button type="submit" className="btn-transmission">Submit</button>
-            </form>
+          <div className="section-header-centered">
+            <h2>Get In Touch</h2>
+            <p>Ready to bring your ideas to life? Whether you have a project in mind or just want to say hi, I'm always open to new opportunities.</p>
           </div>
 
-          <div className="contact-links" style={{ marginTop: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=jetpadilla07@gmail.com&su=Project Intent" target="_blank" rel="noreferrer" className="contact-btn" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+          <div className="contact-links-grid" style={{ marginTop: '3rem', display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=jetpadilla07@gmail.com&su=Project Intent" target="_blank" rel="noreferrer" className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', padding: '16px 32px' }}>
+              <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
                 <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" />
               </svg>
-              Email Me
+              <span>Email Me</span>
             </a>
-            <a href="https://www.linkedin.com/in/jet-padilla-b19b68327/" target="_blank" rel="noreferrer" className="contact-btn ghost" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" /></svg>
-              LinkedIn
+            <a href="https://www.linkedin.com/in/jet-padilla-b19b68327/" target="_blank" rel="noreferrer" className="btn-ghost" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', padding: '16px 32px' }}>
+              <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" /></svg>
+              <span>LinkedIn</span>
             </a>
           </div>
         </div>

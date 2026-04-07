@@ -268,7 +268,7 @@ header.scrolled {
   z-index: 1;
 }
 
-/* ── Left ── */
+/* â”€â”€ Left â”€â”€ */
 .hero-left {
   padding-bottom: 0px;
   min-width: 0;
@@ -334,6 +334,7 @@ header.scrolled {
 }
 
 .btn-primary {
+  text-decoration: none;
   background: var(--accent);
   color: var(--accent-text);
   border: none;
@@ -459,7 +460,7 @@ header.scrolled {
   background: var(--accent-hover);
 }
 
-/* ── Center photo ── */
+/* â”€â”€ Center photo â”€â”€ */
 .hero-photo-wrap {
   position: relative;
   display: flex;
@@ -520,7 +521,7 @@ header.scrolled {
   height: 14px;
 }
 
-/* ── Hero Skills Inline ── */
+/* â”€â”€ Hero Skills Inline â”€â”€ */
 /* Unused styles can be removed if needed, but keeping for reference if user reverts */
 
 /* ================================/* ============================================================
@@ -1096,7 +1097,7 @@ header.scrolled {
 }
 
 .experience-bullets li::before {
-  content: '•';
+  content: '\2022';
   position: absolute;
   left: 0;
   color: var(--exp-accent);
