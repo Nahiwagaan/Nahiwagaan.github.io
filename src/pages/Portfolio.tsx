@@ -212,7 +212,7 @@ function Portfolio() {
             </div>
             <div className="hero-cta">
               <button className="btn-primary" onClick={(e) => scrollToSection(e as any, 'contact')}>Let's Connect!</button>
-              <a href="https://drive.google.com/file/d/1z0lO5nPXp66M3gAUKN90mPp7P8y2F7mG/view?usp=sharing" target="_blank" rel="noreferrer" className="btn-ghost">Preview CV</a>
+              <a href="https://drive.google.com/file/d/1o8zZvsyKBCiIu4I1LBLZrnk1nvZW9lv6/view?usp=sharing" target="_blank" rel="noreferrer" className="btn-ghost">Preview CV</a>
             </div>
           </div>
 
