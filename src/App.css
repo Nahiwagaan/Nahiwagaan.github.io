@@ -592,6 +592,10 @@ header.scrolled {
   margin-bottom: 0;
 }
 
+.section-header-centered p {
+  color: var(--text-muted);
+}
+
 /* Service cards stack (Top Right) */
 .service-cards-stack {
   display: flex;
@@ -1565,16 +1569,18 @@ footer p {
   #projects h2,
   #workflow h2,
   .contact-inner h2 {
-    font-size: 1.8rem;
-    margin-bottom: 8px;
+    font-size: 1.6rem;
+    margin-bottom: 6px;
   }
 
   #projects>p,
   #workflow>p,
   .contact-inner p {
-    font-size: 0.9rem;
-    margin-bottom: 30px;
-    padding: 0 16px;
+    font-size: 0.8rem;
+    margin-bottom: 24px;
+    padding: 0 20px;
+    line-height: 1.5;
+    opacity: 0.85;
   }
 
   .stat-number {
@@ -1645,18 +1651,67 @@ footer p {
   }
 
   .project-card h3 {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
   .project-description {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     -webkit-line-clamp: 3;
     line-clamp: 3;
+    line-height: 1.45;
   }
 
   .tech-icon-small {
     width: 16px;
     height: 16px;
+  }
+
+  .project-year {
+    font-size: 0.8rem;
+  }
+
+  /* Compact Sections */
+  .experience-section,
+  #projects,
+  #workflow {
+    padding: 60px 0;
+  }
+
+  .section-header-centered,
+  .section-header-centered p {
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .section-header-centered h2 {
+    font-size: 1.6rem;
+  }
+
+  .experience-card {
+    padding: 24px;
+    border-radius: var(--radius-md);
+  }
+
+  .experience-label {
+    margin-bottom: 12px;
+    font-size: 0.75rem;
+  }
+
+  .experience-title {
+    font-size: 1.4rem;
+    line-height: 1.25;
+  }
+
+  .experience-details {
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+  }
+
+  .experience-bullets li {
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    padding-left: 20px;
   }
 }
 

@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { db } from '../../data/db';
-import type { Project as ProjectType, Certificate as CertType, Skill as SkillType, Message as MessageType } from '../../data/db';
+import type { Project as ProjectType, Certificate as CertType, Skill as SkillType } from '../../data/db';
 import {
   Plus, Trash2, Edit, X, LogOut,
-  FolderKanban, Award, Code2, MessageSquare,
+  FolderKanban, Award, Code2,
   Menu, Monitor, Upload, Pin, GripVertical, ExternalLink
 } from 'lucide-react';
 import { motion, AnimatePresence, Reorder } from 'framer-motion';
@@ -13,7 +13,7 @@ import { uploadToCloudinary } from '../../data/cloudinary';
 const AdminPanel = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
-  const [activeTab, setActiveTab] = useState<'projects' | 'certs' | 'skills' | 'messages'>('projects');
+  const [activeTab, setActiveTab] = useState<'projects' | 'certs' | 'skills'>('projects');
   const [isMobileView, setIsMobileView] = useState(() => window.innerWidth <= 768);
   const [isSidebarOpen, setIsSidebarOpen] = useState(() => window.innerWidth > 768);
   const [isUploading, setIsUploading] = useState(false);
@@ -22,7 +22,7 @@ const AdminPanel = () => {
   const [projects, setProjects] = useState<ProjectType[]>([]);
   const [certs, setCerts] = useState<CertType[]>([]);
   const [skills, setSkills] = useState<SkillType[]>([]);
-  const [messages, setMessages] = useState<MessageType[]>([]);
+
 
   // Editing States
   const [editingItem, setEditingItem] = useState<any>(null);
@@ -68,7 +68,7 @@ const AdminPanel = () => {
     setProjects(await db.getProjects());
     setCerts(await db.getCerts());
     setSkills(await db.getSkills());
-    setMessages(await db.getMessages());
+
   };
 
   const handleProjectReorder = async (newOrder: ProjectType[]) => {
@@ -93,7 +93,7 @@ const AdminPanel = () => {
     localStorage.removeItem('admin_auth');
   };
 
-  const changeTab = (tab: 'projects' | 'certs' | 'skills' | 'messages') => {
+  const changeTab = (tab: 'projects' | 'certs' | 'skills') => {
     setActiveTab(tab);
     if (isMobileView) setIsSidebarOpen(false);
   };
@@ -197,10 +197,7 @@ const AdminPanel = () => {
           <button className={activeTab === 'projects' ? 'active' : ''} onClick={() => changeTab('projects')}><FolderKanban size={20} /><span>Projects</span></button>
           <button className={activeTab === 'certs' ? 'active' : ''} onClick={() => changeTab('certs')}><Award size={20} /><span>Certificates</span></button>
           <button className={activeTab === 'skills' ? 'active' : ''} onClick={() => changeTab('skills')}><Code2 size={20} /><span>Skills</span></button>
-          <button className={activeTab === 'messages' ? 'active' : ''} onClick={() => changeTab('messages')}>
-            <MessageSquare size={20} /><span>Messages</span>
-            {messages.filter(m => m.status === 'unread').length > 0 && <span className="msg-badge">{messages.filter(m => m.status === 'unread').length}</span>}
-          </button>
+
         </nav>
         <div className="sidebar-footer">
           <button onClick={logout} className="logout-btn"><LogOut size={20} /><span>Sign Out</span></button>
@@ -218,7 +215,7 @@ const AdminPanel = () => {
             <div className="header-breadcrumbs">Dashboard / {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</div>
           </div>
           <button className="add-new-btn" onClick={() => { setEditingItem(null); setShowForm(true); }}>
-            <Plus size={18} /><span>Add {activeTab !== 'messages' ? activeTab.slice(0, -1) : 'Item'}</span>
+            <Plus size={18} /><span>Add {activeTab.slice(0, -1)}</span>
           </button>
         </header>
 
@@ -298,17 +295,7 @@ const AdminPanel = () => {
                     </tbody>
                   </table>
                 )}
-                {activeTab === 'messages' && (
-                  <div className="messages-grid">
-                    {messages.length === 0 ? <div className="no-data">No messages received yet.</div> : messages.map(m => (
-                      <div className={`message-card ${m.status}`} key={m.id}>
-                        <div className="msg-header"><strong>{m.name}</strong><span>{new Date(m.created_at || '').toLocaleDateString()}</span></div>
-                        <div className="msg-email">{m.email}</div><p className="msg-content">{m.content}</p>
-                        <div className="msg-actions"><button className="btn-small" onClick={() => deleteItem('messages', m.id)}>Delete</button></div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+
               </div>
             </motion.div>
           </AnimatePresence>
