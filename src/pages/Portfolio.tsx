@@ -234,35 +234,7 @@ function Portfolio() {
                 and a commitment to quality.
               </p>
             </div>
-            <div className="service-cards-stack">
-              <a href="#projects" className="service-card" onClick={(e) => scrollToSection(e as any, 'projects')}>
-                <img src="/images/uiux.jfif" alt="UI/UX Design" className="service-thumb" />
-                <div className="service-info">
-                  <h3>UI/UX Design</h3>
-                </div>
-                <span className="service-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </span>
-              </a>
-              <a href="#projects" className="service-card" onClick={(e) => scrollToSection(e as any, 'projects')}>
-                <img src="/images/frontend.jfif" alt="Front End Develop" className="service-thumb" />
-                <div className="service-info">
-                  <h3>Front End Development</h3>
-                </div>
-                <span className="service-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </span>
-              </a>
-              <a href="#projects" className="service-card" onClick={(e) => scrollToSection(e as any, 'projects')}>
-                <img src="/images/mobile.jfif" alt="Mobile App Develop" className="service-thumb" />
-                <div className="service-info">
-                  <h3>Mobile App Development</h3>
-                </div>
-                <span className="service-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </span>
-              </a>
-            </div>
+
           </div>
 
           <div className="carousel-section-header">
@@ -376,28 +348,37 @@ function Portfolio() {
         <div className="projects-container">
           {projects.length === 0 ? (
             <p style={{ textAlign: 'center', opacity: 0.6, gridColumn: '1 / -1' }}>No pinned projects yet. Pin projects in the Admin Panel.</p>
-          ) : projects.map((p) => (
-            <a href={p.link_url || '#'} target={p.link_url ? '_blank' : undefined} rel="noreferrer" className="project-card-link" key={p.id}>
-              <div className="project-card">
-                <div className={`status-badge status-${p.status}`}>{p.status.charAt(0).toUpperCase() + p.status.slice(1)}</div>
-                <img src={p.image_url || "/images/unnamed.jpg"} alt={p.title} className="project-image" />
-                <div className="project-content">
-                  <div className="project-header">
-                    <h3>{p.title}</h3>
-                    <span className="project-year">{p.year}</span>
-                  </div>
-                  {p.tech_stack && p.tech_stack.length > 0 && (
-                    <div className="project-tech-stack">
-                      {p.tech_stack.map((icon, idx) => (
-                        <img key={idx} src={icon} alt="Tech" className="tech-icon-small" title="Tech Stack" />
-                      ))}
+          ) : projects.map((p) => {
+            const CardWrapper = p.link_url
+              ? ({ children }: { children: React.ReactNode }) => (
+                  <a href={p.link_url!} target="_blank" rel="noreferrer" className="project-card-link" key={p.id}>{children}</a>
+                )
+              : ({ children }: { children: React.ReactNode }) => (
+                  <div className="project-card-link no-link" key={p.id} style={{ cursor: 'default' }}>{children}</div>
+                );
+            return (
+              <CardWrapper key={p.id}>
+                <div className="project-card">
+                  <div className={`status-badge status-${p.status}`}>{p.status.charAt(0).toUpperCase() + p.status.slice(1)}</div>
+                  <img src={p.image_url || "/images/unnamed.jpg"} alt={p.title} className="project-image" />
+                  <div className="project-content">
+                    <div className="project-header">
+                      <h3>{p.title}</h3>
+                      <span className="project-year">{p.year}</span>
                     </div>
-                  )}
-                  <p className="project-description">{p.desc_text}</p>
+                    {p.tech_stack && p.tech_stack.length > 0 && (
+                      <div className="project-tech-stack">
+                        {p.tech_stack.map((icon, idx) => (
+                          <img key={idx} src={icon} alt="Tech" className="tech-icon-small" title="Tech Stack" />
+                        ))}
+                      </div>
+                    )}
+                    <p className="project-description">{p.desc_text}</p>
+                  </div>
                 </div>
-              </div>
-            </a>
-          ))}
+              </CardWrapper>
+            );
+          })}
         </div>
         {allProjectsCount > 9 && (
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>

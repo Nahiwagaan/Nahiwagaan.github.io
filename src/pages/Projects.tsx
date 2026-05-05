@@ -95,28 +95,37 @@ function Projects() {
         <div className="projects-container">
           {projects.length === 0 ? (
             <p style={{ textAlign: 'center', opacity: 0.6 }}>Loading projects...</p>
-          ) : projects.map((p) => (
-            <a href={p.link_url || '#'} target={p.link_url ? '_blank' : undefined} rel="noreferrer" className="project-card-link" key={p.id}>
-              <div className="project-card">
-                <div className={`status-badge status-${p.status}`}>{p.status.charAt(0).toUpperCase() + p.status.slice(1)}</div>
-                <img src={p.image_url || "/images/unnamed.jpg"} alt={p.title} className="project-image" />
-                <div className="project-content">
-                  <div className="project-header">
-                    <h3>{p.title}</h3>
-                    <span className="project-year">{p.year}</span>
-                  </div>
-                  {p.tech_stack && p.tech_stack.length > 0 && (
-                    <div className="project-tech-stack">
-                      {p.tech_stack.map((icon, idx) => (
-                        <img key={idx} src={icon} alt="Tech" className="tech-icon-small" title="Tech Stack" />
-                      ))}
+          ) : projects.map((p) => {
+            const CardWrapper = p.link_url
+              ? ({ children }: { children: React.ReactNode }) => (
+                  <a href={p.link_url!} target="_blank" rel="noreferrer" className="project-card-link">{children}</a>
+                )
+              : ({ children }: { children: React.ReactNode }) => (
+                  <div className="project-card-link no-link" style={{ cursor: 'default' }}>{children}</div>
+                );
+            return (
+              <CardWrapper key={p.id}>
+                <div className="project-card">
+                  <div className={`status-badge status-${p.status}`}>{p.status.charAt(0).toUpperCase() + p.status.slice(1)}</div>
+                  <img src={p.image_url || "/images/unnamed.jpg"} alt={p.title} className="project-image" />
+                  <div className="project-content">
+                    <div className="project-header">
+                      <h3>{p.title}</h3>
+                      <span className="project-year">{p.year}</span>
                     </div>
-                  )}
-                  <p className="project-description">{p.desc_text}</p>
+                    {p.tech_stack && p.tech_stack.length > 0 && (
+                      <div className="project-tech-stack">
+                        {p.tech_stack.map((icon, idx) => (
+                          <img key={idx} src={icon} alt="Tech" className="tech-icon-small" title="Tech Stack" />
+                        ))}
+                      </div>
+                    )}
+                    <p className="project-description">{p.desc_text}</p>
+                  </div>
                 </div>
-              </div>
-            </a>
-          ))}
+              </CardWrapper>
+            );
+          })}
         </div>
       </section>
 
