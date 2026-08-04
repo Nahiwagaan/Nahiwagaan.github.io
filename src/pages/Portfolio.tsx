@@ -220,7 +220,7 @@ function Portfolio() {
                 <h1 className="profile-name">
                   Jet <span className="profile-lastname">Padilla</span>
                 </h1>
-                <p className="profile-role-text">Junior Software Developer · Frontend Developer · Aspiring AI Engineer</p>
+                <p className="profile-role-text">Software Developer & Digital Builder | React, UI/UX, AI Automation & Web Apps</p>
                 <p className="profile-location-text">
                   <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13" style={{ verticalAlign: 'middle', marginRight: '4px' }}><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
                   Bulacan, Philippines{localTime ? ` · ${localTime} local time` : ''}
