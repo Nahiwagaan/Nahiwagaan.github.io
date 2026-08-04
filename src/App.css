@@ -2562,11 +2562,15 @@ footer p {
   letter-spacing: -0.02em;
   color: var(--text-primary);
   font-family: inherit;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
 }
 
 .lnav-brand:hover .lnav-name {
   color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 
 /* Link Groups */

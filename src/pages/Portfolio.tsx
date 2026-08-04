@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../App.css'
 import { db } from '../data/db'
@@ -8,7 +8,7 @@ import type { Project, Certificate, Skill } from '../data/db'
 function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark')
-  const [certIndex, setCertIndex] = useState(0)
+  const [certIndex] = useState(0)
   const [isFading, setIsFading] = useState(false)
   const [localTime, setLocalTime] = useState('')
   const [activeSection, setActiveSection] = useState('services')
@@ -61,13 +61,6 @@ function Portfolio() {
     window.scrollTo(0, 0)
   }, [])
 
-  const handleCertChange = (newIndex: number) => {
-    if (isFading || certs.length === 0) return
-    setIsFading(true)
-    setTimeout(() => { setCertIndex(newIndex) }, 400)
-  }
-  const nextCert = () => handleCertChange((certIndex + 1) % certs.length)
-  const prevCert = () => handleCertChange((certIndex - 1 + certs.length) % certs.length)
 
   const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
   const isPdfUrl = (url?: string) => !!url && url.toLowerCase().includes('.pdf')
@@ -78,18 +71,8 @@ function Portfolio() {
     return url.replace('/upload/', '/upload/pg_1,f_auto,q_auto,w_1400/')
   }
 
-  const getCertSrc = (url: string | undefined) => {
-    if (!url) return ''
-    const absoluteUrl = url.startsWith('/') ? `${window.location.origin}${url}` : url
-    if (isPdfUrl(url) && isMobileDevice) {
-      return `https://docs.google.com/gview?url=${encodeURIComponent(absoluteUrl)}&embedded=true&chrome=false`
-    }
-    return `${url}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`
-  }
-
   const activeCert = certs[certIndex]
   const activeCertUrl = activeCert?.file_url
-  const activeCertLink = activeCert?.link_url || activeCert?.file_url
   const showMobilePdfPreview = isMobileDevice && isPdfUrl(activeCertUrl)
   const mobilePdfPreviewSrc = getMobilePdfPreviewSrc(activeCertUrl)
 
